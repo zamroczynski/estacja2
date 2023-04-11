@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@mui/material";
 import * as React from "react";
 import { Link } from "react-router-dom";
@@ -35,26 +34,26 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <Link to="/terminy">
+          <Link to="/expiry-dates">
             <MenuItem onClick={handleClose}>Terminy</MenuItem>
           </Link>
-          <Link to="/podrecznik">
+          <Link to="/guides">
             <MenuItem onClick={handleClose}>Podręcznik</MenuItem>
           </Link>
-          <Link to="/planogramy">
+          <Link to="/planograms">
             <MenuItem onClick={handleClose}>Planogramy</MenuItem>
           </Link>
-          <Link to="/wiadomosci">
+          <Link to="/messages">
             <MenuItem onClick={handleClose}>Wiadomości</MenuItem>
           </Link>
-          <Link to="/zadania">
+          <Link to="/tasks">
             <MenuItem onClick={handleClose}>Zadania</MenuItem>
           </Link>
-          <Link to="/grafik">
+          <Link to="/schedule">
             <MenuItem onClick={handleClose}>Grafik</MenuItem>
           </Link>
           <Link to="/admin">
-            <MenuItem onClick={handleClose}>Admin</MenuItem>
+            <MenuItem onClick={handleClose}>Administracja</MenuItem>
           </Link>
           <Link to="/logout">
             <MenuItem onClick={handleClose}>Wyloguj</MenuItem>
@@ -65,7 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   };
 
   return (
-    <div className="left-0 top-0 w-screen m-0 flex">
+    <div className="left-0 top-0 w-screen mx-0 mt-0 mb-5 flex">
       <div className="flex justify-between items-center bg-gray-800 w-full py-2">
         <Logo />
         {isLoggedIn && (

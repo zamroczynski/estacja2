@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import './index.css';
 import Navbar from './components/Navbar';
@@ -17,13 +18,14 @@ function App() {
       setIsLoggedIn(false);
       setLoginError('Nieprawidłowy login i/lub hasło');
     }
-    
   };
   return (
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
       {loginError !== '' && <Alert  severity="error">{loginError}</Alert>}
-      {!isLoggedIn && <LoginForm onLogin={handleLogin} />}
+      {!isLoggedIn ? <LoginForm onLogin={handleLogin} /> :
+      <Outlet />
+    }
     </div>
   )
 }

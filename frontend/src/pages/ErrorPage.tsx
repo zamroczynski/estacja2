@@ -15,7 +15,7 @@ export default function ErrorPage() {
         <Card className="mx-auto mt-10" sx={{ maxWidth: 345 }}>
           <CardMedia
             sx={{ height: 140 }}
-            image="/public/images/404.jpg"
+            image="/images/404.jpg"
             title="Astronauta sam w kosmosie"
           />
           <CardContent>
