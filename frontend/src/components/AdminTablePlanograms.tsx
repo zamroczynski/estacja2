@@ -17,23 +17,26 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import MenuItem from "@mui/material/MenuItem";
+import FileInput from "./FileInput";
 
 
 interface AdminTableProps {
   rows: Array<{
     name: string;
-    createdAt: string;
-    updatedAt: string;
-    public: boolean;
-    body: string;
+    current: boolean;
+    effectiveFrom: string;
+    employees: string;
   }>;
   cols: Array<string>;
 }
 
-const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
+const AdminTablePlanograms: React.FC<AdminTableProps> = ({ rows, cols }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -42,8 +45,8 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
   const filteredRows = rows.filter((row) =>
     Object.values({
       name: row.name,
-      createdAt: row.createdAt,
-      updatedAt: row.updatedAt,
+      effectiveFrom: row.effectiveFrom,
+      employees: row.employees,
     }).some((value) => value.toLowerCase().includes(searchValue.toLowerCase()))
   );
 
@@ -85,22 +88,20 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
   };
 
   const EditDialog: React.FC = () => {
-    const [text, setText] = React.useState("");
     return (
       <div>
         <Dialog open={openEdit} onClose={handleCloseEdit} fullScreen>
-          <DialogTitle>Edytuj Instrukcje</DialogTitle>
+          <DialogTitle>Edytuj Planogram</DialogTitle>
           <DialogContent>
             <Box>
               <FormControl fullWidth>
                 <TextField
                   margin="dense"
-                  label="Tytuł"
+                  label="Nazwa"
                   fullWidth
                   variant="standard"
                   value="test"
                 />
-                <ReactQuill value={text} onChange={setText} />
               </FormControl>
             </Box>
           </DialogContent>
@@ -114,23 +115,42 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
   };
 
   const AddDialog: React.FC = () => {
-    const [text, setText] = React.useState("");
+    const [employeesValue, setEmployeesValue] = React.useState("");
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEmployeesValue(event.target.value as string);
+    };
     return (
       <div>
         <Dialog open={openAdd} onClose={handleCloseAdd} fullScreen>
-          <DialogTitle>Nowa Instrukcja</DialogTitle>
+          <DialogTitle>Dodaj planogram</DialogTitle>
           <DialogContent>
-            <Box>
-              <FormControl fullWidth>
                 <TextField
                   margin="dense"
-                  label="Tytuł"
+                  label="Nazwa"
                   fullWidth
-                  variant="standard"
+                  variant="outlined"
+                  sx={{mb: 1}}
                 />
-                <ReactQuill value={text} onChange={setText} />
-              </FormControl>
-            </Box>
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="en-gb"
+                >
+                  <DemoContainer components={["DatePicker"]} sx={{mb: 1}}>
+                    <DatePicker label="Obowiązuje od"/>
+                  </DemoContainer>
+                </LocalizationProvider>
+                <TextField
+                  sx={{mt: 1}}
+                  select
+                  label="Pracownik"
+                  value={employeesValue}
+                  onChange={handleChange}
+                  fullWidth
+                >
+                  <MenuItem value={1}>Administrator</MenuItem>
+                  <MenuItem value={2}>Użytkownik</MenuItem>
+                </TextField>
+                <FileInput />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseAdd}>Anuluj</Button>
@@ -149,10 +169,10 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
         variant="contained"
         fullWidth
       >
-        Nowa instrukcja
+        Dodaj planogram
       </Button>
       <TextField
-        label="Wyszukaj instrukcje"
+        label="Wyszukaj planogram"
         variant="outlined"
         fullWidth
         className="mb-4"
@@ -177,17 +197,19 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="left">{row.createdAt}</TableCell>
-                <TableCell align="left">{row.updatedAt}</TableCell>
-                <TableCell align="left">{row.public ? "Tak" : "Nie"}</TableCell>
+                <TableCell align="left">
+                  {row.current ? "Tak" : "Nie"}
+                </TableCell>
+                <TableCell align="left">{row.effectiveFrom}</TableCell>
+                <TableCell align="left">{row.employees}</TableCell>
                 <TableCell align="right">
-                  {row.public ? (
+                  {row.current ? (
                     <IconButton>
                       <CheckCircleIcon color="primary" />
                     </IconButton>
                   ) : (
                     <IconButton>
-                      <CheckCircleIcon  />
+                      <CheckCircleIcon />
                     </IconButton>
                   )}
 
@@ -210,4 +232,4 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
   );
 };
 
-export default AdminTableGuides;
+export default AdminTablePlanograms;

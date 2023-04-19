@@ -149,7 +149,7 @@ const AdminTableEmployees: React.FC<AdminTableProps> = ({ rows, cols }) => {
     return (
       <div>
         <Dialog open={openAdd} onClose={handleCloseAdd} fullScreen>
-          <DialogTitle>Dodaj Instrukcję</DialogTitle>
+          <DialogTitle>Dodaj Pracownika</DialogTitle>
           <DialogContent>
               <FormControl fullWidth>
               <TextField

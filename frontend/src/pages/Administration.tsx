@@ -1,21 +1,12 @@
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import BasicTableExpiryDates from "../components/BasicTableExpiryDates";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import dayjs from "dayjs";
-import "dayjs/locale/en-GB";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Autocomplete from "@mui/material/Autocomplete";
+import { Container } from "@mui/material";
 import AdminTableEmployees from "../components/AdminTableEmployees";
 import AdminTableGuides from "../components/AdminTableGuides";
-import { Container } from "@mui/material";
+import AdminTablePlanograms from "../components/AdminTablePlanograms";
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -104,6 +95,42 @@ const rowsGuides: Array<{
   },
 ];
 
+const colsPlanograms: Array<string> = [
+  "Nazwa",
+  "Aktualny",
+  "Obowiązuje od",
+  "Przypisany pracownik",
+];
+const rowsPlanograms: Array<{
+  id: number;
+  name: string;
+  current: boolean;
+  effectiveFrom: string;
+  employees: string;
+}> = [
+  {
+    id: 1,
+    name: "Test1",
+    current: true,
+    effectiveFrom: "2023-04-11",
+    employees: "Damian Zamorczynski",
+  },
+  {
+    id: 2,
+    name: "Test2",
+    current: true,
+    effectiveFrom: "2023-04-01",
+    employees: "Janek Testowy",
+  },
+  {
+    id: 3,
+    name: "Fiflok",
+    current: false,
+    effectiveFrom: "2023-01-01",
+    employees: "Damian Zamorczynski",
+  },
+];
+
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -125,7 +152,6 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const Administration: React.FC = () => {
-  const today = dayjs();
   const [tabValue, setTabValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -161,7 +187,7 @@ const Administration: React.FC = () => {
         <AdminTableGuides cols={colsGuides} rows={rowsGuides} />
       </TabPanel>
       <TabPanel value={tabValue} index={2}>
-        Planogramy
+        <AdminTablePlanograms cols={colsPlanograms} rows={rowsPlanograms} />
       </TabPanel>
       <TabPanel value={tabValue} index={3}>
         Wiadomości
