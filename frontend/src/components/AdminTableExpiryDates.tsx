@@ -13,10 +13,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import { EditIconButton, DeleteIconButton } from ".";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -141,12 +139,8 @@ const AdminTableExpiryDates: React.FC<AdminTableProps> = ({ rows, cols }) => {
                 <TableCell align="left">{row.date}</TableCell>
                 <TableCell align="left">{row.amount}</TableCell>
                 <TableCell align="right">
-                  <IconButton onClick={handleClickEditOpen}>
-                    <EditIcon color="warning" />
-                  </IconButton>
-                  <IconButton onClick={handleClickDeleteOpen}>
-                    <DeleteIcon color="error" />
-                  </IconButton>
+                  <EditIconButton onClick={handleClickEditOpen} />
+                  <DeleteIconButton onClick={handleClickDeleteOpen} />
                 </TableCell>
               </TableRow>
             ))}

@@ -13,22 +13,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
-  IconButton,
-  Box,
   MenuItem,
   Typography,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { EditIconButton, DeleteIconButton, CheckCircleIconButton } from ".";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { LabelImportantOutlined } from "@mui/icons-material";
 
 interface AdminTableProps {
   rows: Array<{
@@ -231,21 +225,12 @@ const AdminTableTasks: React.FC<AdminTableProps> = ({ rows, cols }) => {
                 <TableCell align="left">{row.deadline}</TableCell>
                 <TableCell align="left">{row.done ? "Tak" : "Nie"}</TableCell>
                 <TableCell align="right">
-                  {row.done ? (
-                    <IconButton>
-                      <CheckCircleIcon color="primary" />
-                    </IconButton>
-                  ) : (
-                    <IconButton>
-                      <CheckCircleIcon />
-                    </IconButton>
-                  )}
-                  <IconButton onClick={handleClickEditOpen}>
-                    <EditIcon color="warning" />
-                  </IconButton>
-                  <IconButton onClick={handleClickDeleteOpen}>
-                    <DeleteIcon color="error" />
-                  </IconButton>
+                  <CheckCircleIconButton
+                    value={row.done}
+                    onClick={handleClickDeleteOpen}
+                  />
+                  <EditIconButton onClick={handleClickEditOpen} />
+                  <DeleteIconButton onClick={handleClickDeleteOpen} />
                 </TableCell>
               </TableRow>
             ))}

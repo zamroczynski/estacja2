@@ -14,14 +14,11 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  IconButton,
   Box,
 } from "@mui/material";
+import { EditIconButton, DeleteIconButton, CheckCircleIconButton } from ".";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 
 interface AdminTableProps {
   rows: Array<{
@@ -182,22 +179,12 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
                 <TableCell align="left">{row.updatedAt}</TableCell>
                 <TableCell align="left">{row.public ? "Tak" : "Nie"}</TableCell>
                 <TableCell align="right">
-                  {row.public ? (
-                    <IconButton>
-                      <CheckCircleIcon color="primary" />
-                    </IconButton>
-                  ) : (
-                    <IconButton>
-                      <CheckCircleIcon />
-                    </IconButton>
-                  )}
-
-                  <IconButton onClick={handleClickEditOpen}>
-                    <EditIcon color="warning" />
-                  </IconButton>
-                  <IconButton onClick={handleClickDeleteOpen}>
-                    <DeleteIcon color="error" />
-                  </IconButton>
+                  <CheckCircleIconButton
+                    value={row.public}
+                    onClick={handleClickDeleteOpen}
+                  />
+                  <EditIconButton onClick={handleClickEditOpen} />
+                  <DeleteIconButton onClick={handleClickDeleteOpen} />
                 </TableCell>
               </TableRow>
             ))}

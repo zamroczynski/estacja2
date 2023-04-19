@@ -8,3 +8,6 @@ export { default as FileInput } from "./FileInput";
 export { default as LoginForm } from "./LoginForm";
 export { default as Logo } from "./Logo";
 export { default as Navbar } from "./Navbar";
+export { default as DeleteIconButton } from "./DeleteIconButton";
+export { default as EditIconButton } from "./EditIconButton";
+export { default as CheckCircleIconButton } from "./CheckCircleIconButton";

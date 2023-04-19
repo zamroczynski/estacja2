@@ -14,12 +14,10 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  IconButton,
   Box,
   MenuItem,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import { EditIconButton, DeleteIconButton } from ".";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 
@@ -240,12 +238,8 @@ const AdminTableEmployees: React.FC<AdminTableProps> = ({ rows, cols }) => {
                 <TableCell align="left">{row.login}</TableCell>
                 <TableCell align="left">{row.phone}</TableCell>
                 <TableCell align="right">
-                  <IconButton onClick={handleClickEditOpen}>
-                    <EditIcon color="warning" />
-                  </IconButton>
-                  <IconButton onClick={handleClickDeleteOpen}>
-                    <DeleteIcon color="error" />
-                  </IconButton>
+                  <EditIconButton onClick={handleClickEditOpen} />
+                  <DeleteIconButton onClick={handleClickDeleteOpen} />
                 </TableCell>
               </TableRow>
             ))}
