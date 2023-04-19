@@ -7,8 +7,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import dayjs from "dayjs";
-import "dayjs/locale/en-GB";
+import * as dayjs from "dayjs";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -109,7 +108,7 @@ const ExpiryDates: React.FC = () => {
         </Tabs>
       </div>
       <TabPanel value={tabValue} index={0}>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={dayjs.locale('en-gb')}>
           <DemoContainer components={["DatePicker"]}>
             <DatePicker
               label="Wybierz datę"
@@ -125,7 +124,7 @@ const ExpiryDates: React.FC = () => {
         <Box component="form" noValidate autoComplete="off">
           <LocalizationProvider
             dateAdapter={AdapterDayjs}
-            adapterLocale="en-gb"
+            adapterLocale={dayjs.locale('en-gb')}
           >
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
@@ -175,7 +174,7 @@ const ExpiryDates: React.FC = () => {
         <Box>
           <LocalizationProvider
             dateAdapter={AdapterDayjs}
-            adapterLocale="en-gb"
+            adapterLocale={dayjs.locale('en-gb')}
           >
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
@@ -187,7 +186,7 @@ const ExpiryDates: React.FC = () => {
           </LocalizationProvider>
           <LocalizationProvider
             dateAdapter={AdapterDayjs}
-            adapterLocale="en-gb"
+            adapterLocale={dayjs.locale('en-gb')}
           >
             <DemoContainer components={["DatePicker"]}>
               <DatePicker

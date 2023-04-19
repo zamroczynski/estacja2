@@ -1,25 +1,27 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  IconButton,
+  Box,
+  MenuItem,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import Box from "@mui/material/Box";
 
 interface AdminTableProps {
   rows: Array<{
@@ -151,46 +153,42 @@ const AdminTableEmployees: React.FC<AdminTableProps> = ({ rows, cols }) => {
         <Dialog open={openAdd} onClose={handleCloseAdd} fullScreen>
           <DialogTitle>Dodaj Pracownika</DialogTitle>
           <DialogContent>
-              <FormControl fullWidth>
+            <FormControl fullWidth>
+              <TextField select label="Uprawnienia" value={permissionValue}>
+                <MenuItem value={1}>Administrator</MenuItem>
+                <MenuItem value={2}>Użytkownik</MenuItem>
+              </TextField>
               <TextField
-                  select
-                  label="Uprawnienia"
-                  value={permissionValue}
-                >
-                  <MenuItem value={1}>Administrator</MenuItem>
-                  <MenuItem value={2}>Użytkownik</MenuItem>
-                </TextField>
-                <TextField
-                  margin="dense"
-                  label="Login"
-                  variant="outlined"
-                  value=""
-                />
-                <TextField
-                  margin="dense"
-                  label="Hasło"
-                  variant="outlined"
-                  value=""
-                />
-                <TextField
-                  margin="dense"
-                  label="Imię i nazwisko"
-                  variant="outlined"
-                  value=""
-                />
-                <TextField
-                  margin="dense"
-                  label="eMail"
-                  variant="outlined"
-                  value=""
-                />
-                <TextField
-                  margin="dense"
-                  label="Telefon"
-                  variant="outlined"
-                  value=""
-                />
-              </FormControl>
+                margin="dense"
+                label="Login"
+                variant="outlined"
+                value=""
+              />
+              <TextField
+                margin="dense"
+                label="Hasło"
+                variant="outlined"
+                value=""
+              />
+              <TextField
+                margin="dense"
+                label="Imię i nazwisko"
+                variant="outlined"
+                value=""
+              />
+              <TextField
+                margin="dense"
+                label="eMail"
+                variant="outlined"
+                value=""
+              />
+              <TextField
+                margin="dense"
+                label="Telefon"
+                variant="outlined"
+                value=""
+              />
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseAdd}>Anuluj</Button>
@@ -203,7 +201,14 @@ const AdminTableEmployees: React.FC<AdminTableProps> = ({ rows, cols }) => {
 
   return (
     <div>
-      <Button className="bg-lime-700 w-full mb-3" onClick={handleClickAddOpen} variant='contained' fullWidth>Dodaj pracownika</Button>
+      <Button
+        className="bg-lime-700 w-full mb-3"
+        onClick={handleClickAddOpen}
+        variant="contained"
+        fullWidth
+      >
+        Dodaj pracownika
+      </Button>
       <TextField
         label="Wyszukaj pracownika"
         variant="outlined"

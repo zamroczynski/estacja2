@@ -16,25 +16,33 @@ import {
   FormControl,
   IconButton,
   Box,
+  MenuItem,
+  Typography,
 } from "@mui/material";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { LabelImportantOutlined } from "@mui/icons-material";
 
 interface AdminTableProps {
   rows: Array<{
+    id: number;
     name: string;
-    createdAt: string;
-    updatedAt: string;
-    public: boolean;
-    body: string;
+    description: string;
+    employees: string;
+    deadline: string;
+    done: boolean;
   }>;
   cols: Array<string>;
 }
 
-const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
+const AdminTableTasks: React.FC<AdminTableProps> = ({ rows, cols }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -43,8 +51,8 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
   const filteredRows = rows.filter((row) =>
     Object.values({
       name: row.name,
-      createdAt: row.createdAt,
-      updatedAt: row.updatedAt,
+      employees: row.employees,
+      deadline: row.deadline,
     }).some((value) => value.toLowerCase().includes(searchValue.toLowerCase()))
   );
 
@@ -86,24 +94,44 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
   };
 
   const EditDialog: React.FC = () => {
+    const [employeesValue, setEmployeesValue] = React.useState("");
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEmployeesValue(event.target.value as string);
+    };
     const [text, setText] = React.useState("");
     return (
       <div>
         <Dialog open={openEdit} onClose={handleCloseEdit} fullScreen>
-          <DialogTitle>Edytuj Instrukcje</DialogTitle>
+          <DialogTitle>Edytuj Zadanie</DialogTitle>
           <DialogContent>
-            <Box>
-              <FormControl fullWidth>
-                <TextField
-                  margin="dense"
-                  label="Tytuł"
-                  fullWidth
-                  variant="standard"
-                  value="test"
-                />
-                <ReactQuill value={text} onChange={setText} />
-              </FormControl>
-            </Box>
+            <TextField
+              margin="dense"
+              label="Nazwa"
+              fullWidth
+              variant="outlined"
+              sx={{ mb: 1 }}
+            />
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              adapterLocale="en-gb"
+            >
+              <DemoContainer components={["DatePicker"]} sx={{ mb: 1 }}>
+                <DatePicker label="Termin wykonania" />
+              </DemoContainer>
+            </LocalizationProvider>
+            <TextField
+              sx={{ mt: 1, mb: 2 }}
+              select
+              label="Pracownik"
+              value={employeesValue}
+              onChange={handleChange}
+              fullWidth
+            >
+              <MenuItem value={1}>Administrator</MenuItem>
+              <MenuItem value={2}>Użytkownik</MenuItem>
+            </TextField>
+            <Typography>Opis zadania:</Typography>
+            <ReactQuill value={text} onChange={setText} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseEdit}>Anuluj</Button>
@@ -115,23 +143,44 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
   };
 
   const AddDialog: React.FC = () => {
+    const [employeesValue, setEmployeesValue] = React.useState("");
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEmployeesValue(event.target.value as string);
+    };
     const [text, setText] = React.useState("");
     return (
       <div>
         <Dialog open={openAdd} onClose={handleCloseAdd} fullScreen>
-          <DialogTitle>Nowa Instrukcja</DialogTitle>
+          <DialogTitle>Nowe Zadanie</DialogTitle>
           <DialogContent>
-            <Box>
-              <FormControl fullWidth>
-                <TextField
-                  margin="dense"
-                  label="Tytuł"
-                  fullWidth
-                  variant="standard"
-                />
-                <ReactQuill value={text} onChange={setText} />
-              </FormControl>
-            </Box>
+            <TextField
+              margin="dense"
+              label="Nazwa"
+              fullWidth
+              variant="outlined"
+              sx={{ mb: 1 }}
+            />
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              adapterLocale="en-gb"
+            >
+              <DemoContainer components={["DatePicker"]} sx={{ mb: 1 }}>
+                <DatePicker label="Termin wykonania" />
+              </DemoContainer>
+            </LocalizationProvider>
+            <TextField
+              sx={{ mt: 1, mb: 2 }}
+              select
+              label="Pracownik"
+              value={employeesValue}
+              onChange={handleChange}
+              fullWidth
+            >
+              <MenuItem value={1}>Administrator</MenuItem>
+              <MenuItem value={2}>Użytkownik</MenuItem>
+            </TextField>
+            <Typography>Opis zadania:</Typography>
+            <ReactQuill value={text} onChange={setText} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseAdd}>Anuluj</Button>
@@ -150,10 +199,10 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
         variant="contained"
         fullWidth
       >
-        Nowa instrukcja
+        Nowe Zadanie
       </Button>
       <TextField
-        label="Wyszukaj instrukcje"
+        label="Wyszukaj zadanie"
         variant="outlined"
         fullWidth
         className="mb-4"
@@ -178,11 +227,11 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="left">{row.createdAt}</TableCell>
-                <TableCell align="left">{row.updatedAt}</TableCell>
-                <TableCell align="left">{row.public ? "Tak" : "Nie"}</TableCell>
+                <TableCell align="left">{row.employees}</TableCell>
+                <TableCell align="left">{row.deadline}</TableCell>
+                <TableCell align="left">{row.done ? "Tak" : "Nie"}</TableCell>
                 <TableCell align="right">
-                  {row.public ? (
+                  {row.done ? (
                     <IconButton>
                       <CheckCircleIcon color="primary" />
                     </IconButton>
@@ -191,7 +240,6 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
                       <CheckCircleIcon />
                     </IconButton>
                   )}
-
                   <IconButton onClick={handleClickEditOpen}>
                     <EditIcon color="warning" />
                   </IconButton>
@@ -211,4 +259,4 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
   );
 };
 
-export default AdminTableGuides;
+export default AdminTableTasks;

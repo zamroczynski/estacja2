@@ -1,30 +1,31 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  IconButton,
+  Box,
+  MenuItem,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import FormControl from "@mui/material/FormControl";
-import Box from "@mui/material/Box";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import MenuItem from "@mui/material/MenuItem";
 import FileInput from "./FileInput";
-
 
 interface AdminTableProps {
   rows: Array<{
@@ -124,33 +125,33 @@ const AdminTablePlanograms: React.FC<AdminTableProps> = ({ rows, cols }) => {
         <Dialog open={openAdd} onClose={handleCloseAdd} fullScreen>
           <DialogTitle>Dodaj planogram</DialogTitle>
           <DialogContent>
-                <TextField
-                  margin="dense"
-                  label="Nazwa"
-                  fullWidth
-                  variant="outlined"
-                  sx={{mb: 1}}
-                />
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale="en-gb"
-                >
-                  <DemoContainer components={["DatePicker"]} sx={{mb: 1}}>
-                    <DatePicker label="Obowiązuje od"/>
-                  </DemoContainer>
-                </LocalizationProvider>
-                <TextField
-                  sx={{mt: 1}}
-                  select
-                  label="Pracownik"
-                  value={employeesValue}
-                  onChange={handleChange}
-                  fullWidth
-                >
-                  <MenuItem value={1}>Administrator</MenuItem>
-                  <MenuItem value={2}>Użytkownik</MenuItem>
-                </TextField>
-                <FileInput />
+            <TextField
+              margin="dense"
+              label="Nazwa"
+              fullWidth
+              variant="outlined"
+              sx={{ mb: 1 }}
+            />
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              adapterLocale="en-gb"
+            >
+              <DemoContainer components={["DatePicker"]} sx={{ mb: 1 }}>
+                <DatePicker label="Obowiązuje od" />
+              </DemoContainer>
+            </LocalizationProvider>
+            <TextField
+              sx={{ mt: 1 }}
+              select
+              label="Pracownik"
+              value={employeesValue}
+              onChange={handleChange}
+              fullWidth
+            >
+              <MenuItem value={1}>Administrator</MenuItem>
+              <MenuItem value={2}>Użytkownik</MenuItem>
+            </TextField>
+            <FileInput />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseAdd}>Anuluj</Button>

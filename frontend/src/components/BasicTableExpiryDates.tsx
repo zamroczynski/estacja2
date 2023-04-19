@@ -1,25 +1,29 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import * as React from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 
 interface BasicTableProps {
-    rows: Array<{id: number, name: string, date: string, amount: string}>,
-    cols: Array<string>,
+  rows: Array<{ id: number; name: string; date: string; amount: string }>;
+  cols: Array<string>;
 }
 
-const BasicTableExpiryDates: React.FC<BasicTableProps> = ({rows, cols}) => {
+const BasicTableExpiryDates: React.FC<BasicTableProps> = ({ rows, cols }) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             {cols.map((col) => (
-                <TableCell key={col} align="center">{col}</TableCell>
+              <TableCell key={col} align="center">
+                {col}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -27,7 +31,7 @@ const BasicTableExpiryDates: React.FC<BasicTableProps> = ({rows, cols}) => {
           {rows.map((row) => (
             <TableRow
               key={row.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell align="center">{row.name}</TableCell>
               <TableCell align="right">{row.date}</TableCell>
@@ -38,6 +42,6 @@ const BasicTableExpiryDates: React.FC<BasicTableProps> = ({rows, cols}) => {
       </Table>
     </TableContainer>
   );
-}
+};
 
 export default BasicTableExpiryDates;
