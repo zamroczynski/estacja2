@@ -12,3 +12,5 @@ export { default as DeleteIconButton } from "./DeleteIconButton";
 export { default as EditIconButton } from "./EditIconButton";
 export { default as CheckCircleIconButton } from "./CheckCircleIconButton";
 export { default as DeleteDialog } from "./DeleteDialog";
+export { default as AdminScheduleButton } from "./AdminScheduleButton";
+export { default as AdminSchedule } from "./AdminSchedule";

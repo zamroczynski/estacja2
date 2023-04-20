@@ -38,4 +38,13 @@ export const rowsEmployees: Array<{
     login: "jan",
     phone: "",
   },
+  {
+    id: 4,
+    name: "Maciej Długi",
+    email:
+      "testBuziaczekKociaczekBuraczekKurczakiZiemnakiHamburgeryIInnekurwaaaaaaa@test.pl",
+    permissions: "Użytkownik",
+    login: "jan",
+    phone: "",
+  },
 ];

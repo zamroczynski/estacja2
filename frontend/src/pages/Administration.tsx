@@ -5,6 +5,7 @@ import {
   AdminTableEmployees,
   AdminTableGuides,
   AdminTablePlanograms,
+  AdminSchedule,
 } from "../components";
 
 //data
@@ -84,7 +85,7 @@ const Administration: React.FC = () => {
         <AdminTableTasks cols={colsTasks} rows={rowsTasks} />
       </TabPanel>
       <TabPanel value={tabValue} index={5}>
-        Grafik
+        <AdminSchedule />
       </TabPanel>
     </div>
   );
