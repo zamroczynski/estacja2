@@ -11,3 +11,4 @@ export { default as Navbar } from "./Navbar";
 export { default as DeleteIconButton } from "./DeleteIconButton";
 export { default as EditIconButton } from "./EditIconButton";
 export { default as CheckCircleIconButton } from "./CheckCircleIconButton";
+export { default as DeleteDialog } from "./DeleteDialog";

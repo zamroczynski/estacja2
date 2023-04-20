@@ -16,7 +16,12 @@ import {
   FormControl,
   Box,
 } from "@mui/material";
-import { EditIconButton, DeleteIconButton, CheckCircleIconButton } from ".";
+import {
+  EditIconButton,
+  DeleteIconButton,
+  CheckCircleIconButton,
+  DeleteDialog,
+} from ".";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -66,20 +71,6 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
 
   const handleCloseAdd = () => {
     setOpenAdd(false);
-  };
-
-  const DeleteDialog: React.FC = () => {
-    return (
-      <div>
-        <Dialog open={openDelete} onClose={handleCloseDelete}>
-          <DialogTitle>Czy napewno usunąć?</DialogTitle>
-          <DialogActions>
-            <Button onClick={handleCloseDelete}>Anuluj</Button>
-            <Button onClick={handleCloseDelete}>Usuń</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
   };
 
   const EditDialog: React.FC = () => {
@@ -192,7 +183,10 @@ const AdminTableGuides: React.FC<AdminTableProps> = ({ rows, cols }) => {
         </Table>
       </TableContainer>
       <EditDialog />
-      <DeleteDialog />
+      <DeleteDialog
+        openDelete={openDelete}
+        handleCloseDelete={handleCloseDelete}
+      />
       <AddDialog />
     </div>
   );

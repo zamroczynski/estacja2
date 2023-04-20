@@ -17,7 +17,7 @@ import {
   Box,
   MenuItem,
 } from "@mui/material";
-import { EditIconButton, DeleteIconButton } from ".";
+import { EditIconButton, DeleteIconButton, DeleteDialog } from ".";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 
@@ -69,20 +69,6 @@ const AdminTableEmployees: React.FC<AdminTableProps> = ({ rows, cols }) => {
 
   const handleCloseAdd = () => {
     setOpenAdd(false);
-  };
-
-  const DeleteDialog: React.FC = () => {
-    return (
-      <div>
-        <Dialog open={openDelete} onClose={handleCloseDelete}>
-          <DialogTitle>Czy napewno usunąć?</DialogTitle>
-          <DialogActions>
-            <Button onClick={handleCloseDelete}>Anuluj</Button>
-            <Button onClick={handleCloseDelete}>Usuń</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
   };
 
   const EditDialog: React.FC = () => {
@@ -247,7 +233,10 @@ const AdminTableEmployees: React.FC<AdminTableProps> = ({ rows, cols }) => {
         </Table>
       </TableContainer>
       <EditDialog />
-      <DeleteDialog />
+      <DeleteDialog
+        openDelete={openDelete}
+        handleCloseDelete={handleCloseDelete}
+      />
       <AddDialog />
     </div>
   );

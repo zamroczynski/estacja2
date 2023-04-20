@@ -14,7 +14,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { EditIconButton, DeleteIconButton } from ".";
+import { EditIconButton, DeleteIconButton, DeleteDialog } from ".";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -50,20 +50,6 @@ const AdminTableExpiryDates: React.FC<AdminTableProps> = ({ rows, cols }) => {
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
-  };
-
-  const DeleteDialog: React.FC = () => {
-    return (
-      <div>
-        <Dialog open={openDelete} onClose={handleCloseDelete}>
-          <DialogTitle>Czy napewno usunąć?</DialogTitle>
-          <DialogActions>
-            <Button onClick={handleCloseDelete}>Anuluj</Button>
-            <Button onClick={handleCloseDelete}>Usuń</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
   };
 
   const EditDialog: React.FC = () => {
@@ -148,7 +134,10 @@ const AdminTableExpiryDates: React.FC<AdminTableProps> = ({ rows, cols }) => {
         </Table>
       </TableContainer>
       <EditDialog />
-      <DeleteDialog />
+      <DeleteDialog
+        openDelete={openDelete}
+        handleCloseDelete={handleCloseDelete}
+      />
     </div>
   );
 };
