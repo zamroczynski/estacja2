@@ -1,0 +1,16 @@
+version: '2020.2'
+build:
+  steps:
+    - name: Build Docker image
+      type: DockerBuild
+      dockerfile: Dockerfile
+      context: .
+      tag: my-react-app
+    - name: Run Docker container
+      type: DockerCompose
+      services:
+        my-react-app:
+          image: my-react-app
+          ports:
+            - "3000:3000"
+          command: npm run dev
