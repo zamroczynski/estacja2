@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 export default function ErrorPage() {
-  const error: unknown = useRouteError();
+  const error: any = useRouteError();
   console.error(error);
 
   return (
