@@ -1,6 +1,10 @@
 import React from "react";
 import { Box } from "@mui/system";
-import { AdminScheduleButton, DialogListPreferences } from ".";
+import {
+  AdminScheduleButton,
+  DialogListPreferences,
+  DialogManageShifts,
+} from ".";
 import {
   FormatListNumbered,
   AddBox,
@@ -8,7 +12,9 @@ import {
   Build,
 } from "@mui/icons-material";
 import { Color } from "./Types";
+//data
 import { rowsPreferences } from "../pages/data/preferences";
+import { rowsShifts } from "../pages/data/shifts";
 
 const AdminSchedule = () => {
   const [preferencesDialog, setPreferencesDialog] = React.useState(false);
@@ -82,6 +88,11 @@ const AdminSchedule = () => {
         open={preferencesDialog}
         handleClose={handleClickPreferencesDialogClose}
         rows={rowsPreferences}
+      />
+      <DialogManageShifts
+        open={configureShiftDialog}
+        handleClose={handleClickConfigureShiftDialogClose}
+        rows={rowsShifts}
       />
     </Box>
   );

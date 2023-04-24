@@ -13,9 +13,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   Box,
-  MenuItem,
 } from "@mui/material";
 
 type DialogListPreferencesProps = {
