@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/system";
-import { AdminScheduleButton } from ".";
+import { AdminScheduleButton, DialogListPreferences } from ".";
 import {
   FormatListNumbered,
   AddBox,
@@ -8,6 +8,7 @@ import {
   Build,
 } from "@mui/icons-material";
 import { Color } from "./Types";
+import { rowsPreferences } from "../pages/data/preferences";
 
 const AdminSchedule = () => {
   const [preferencesDialog, setPreferencesDialog] = React.useState(false);
@@ -76,6 +77,11 @@ const AdminSchedule = () => {
         icon={<Build fontSize="large" sx={{ mr: 1 }} />}
         color={Color.Primary}
         label="Edytuj zmiany"
+      />
+      <DialogListPreferences
+        open={preferencesDialog}
+        handleClose={handleClickPreferencesDialogClose}
+        rows={rowsPreferences}
       />
     </Box>
   );
