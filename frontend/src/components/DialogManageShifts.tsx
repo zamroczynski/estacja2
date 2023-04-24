@@ -15,19 +15,21 @@ import {
   DialogTitle,
   Box,
 } from "@mui/material";
-import { EditIconButton, DialogAddShifts } from ".";
+import { EditIconButton, DialogShift } from ".";
+
+type shiftProps = {
+  id: string;
+  name: string;
+  timeFrom: string;
+  timeTo: string;
+  duration: string;
+  numbersOfEmployees: string;
+};
 
 type DialogManageShiftsProps = {
   open: boolean;
   handleClose: () => void;
-  rows: Array<{
-    id: number;
-    name: string;
-    timeFrom: string;
-    timeTo: string;
-    duration: string;
-    numbersOfEmployees: string;
-  }>;
+  rows: shiftProps[];
 };
 
 const DialogManageShifts: React.FC<DialogManageShiftsProps> = ({
@@ -35,7 +37,7 @@ const DialogManageShifts: React.FC<DialogManageShiftsProps> = ({
   handleClose,
   rows,
 }) => {
-  const [editDialog, setEditDialog] = React.useState(false);
+  const [editDialog, setEditDialog] = React.useState<shiftProps>();
   const [addDialog, setAddDialog] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
   const filteredRows = rows.filter((row) =>
@@ -46,12 +48,13 @@ const DialogManageShifts: React.FC<DialogManageShiftsProps> = ({
     }).some((value) => value.toLowerCase().includes(searchValue.toLowerCase()))
   );
 
-  const handleClickEditOpen = () => {
-    setEditDialog(true);
+  const handleClickEditOpen = (value: any) => {
+    setEditDialog(value);
+    handleClickAddOpen();
   };
-  const handleClickEditClose = () => {
-    setEditDialog(false);
-  };
+  //  const handleClickEditClose = () => {
+  //     setEditDialog(false);
+  //   };
   const handleClickAddOpen = () => {
     setAddDialog(true);
   };
@@ -101,7 +104,7 @@ const DialogManageShifts: React.FC<DialogManageShiftsProps> = ({
                   <TableCell>{row.duration}</TableCell>
                   <TableCell>{row.numbersOfEmployees}</TableCell>
                   <TableCell>
-                    <EditIconButton onClick={handleClickEditOpen} />
+                    <EditIconButton onClick={() => handleClickEditOpen(row)} />
                   </TableCell>
                 </TableRow>
               ))}
@@ -114,7 +117,11 @@ const DialogManageShifts: React.FC<DialogManageShiftsProps> = ({
           Zamknij
         </Button>
       </DialogActions>
-      <DialogAddShifts open={addDialog} handleClose={handleClickAddClose} />
+      <DialogShift
+        shift={editDialog}
+        open={addDialog}
+        handleClose={handleClickAddClose}
+      />
     </Dialog>
   );
 };

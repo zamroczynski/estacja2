@@ -16,4 +16,4 @@ export { default as AdminScheduleButton } from "./AdminScheduleButton";
 export { default as AdminSchedule } from "./AdminSchedule";
 export { default as DialogListPreferences } from "./DialogListPreferences";
 export { default as DialogManageShifts } from "./DialogManageShifts";
-export { default as DialogAddShifts } from "./DialogAddShift";
+export { default as DialogShift } from "./DialogShift";

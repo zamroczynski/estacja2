@@ -1,13 +1,15 @@
-export const rowsShifts: Array<{
-  id: number;
+type shiftProps = {
+  id: string;
   name: string;
   timeFrom: string;
   timeTo: string;
   duration: string;
   numbersOfEmployees: string;
-}> = [
+};
+
+export const rowsShifts: shiftProps[] = [
   {
-    id: 1,
+    id: "1",
     name: "Dniówka",
     timeFrom: "07:00:00",
     timeTo: "19:00:00",
@@ -15,7 +17,7 @@ export const rowsShifts: Array<{
     numbersOfEmployees: "2",
   },
   {
-    id: 2,
+    id: "2",
     name: "Nocka",
     timeFrom: "19:00:00",
     timeTo: "07:00:00",
@@ -23,7 +25,7 @@ export const rowsShifts: Array<{
     numbersOfEmployees: "2",
   },
   {
-    id: 3,
+    id: "3",
     name: "Dniówka +",
     timeFrom: "10:00:00",
     timeTo: "20:00:00",
