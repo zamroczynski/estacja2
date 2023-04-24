@@ -37,9 +37,10 @@ const DialogManageShifts: React.FC<DialogManageShiftsProps> = ({
   handleClose,
   rows,
 }) => {
-  const [editDialog, setEditDialog] = React.useState<shiftProps>();
+  const [shift, setShift] = React.useState<shiftProps>();
   const [addDialog, setAddDialog] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
+  const [dialogTitle, setDialogTitle] = React.useState("");
   const filteredRows = rows.filter((row) =>
     Object.values({
       name: row.name,
@@ -48,9 +49,13 @@ const DialogManageShifts: React.FC<DialogManageShiftsProps> = ({
     }).some((value) => value.toLowerCase().includes(searchValue.toLowerCase()))
   );
 
-  const handleClickEditOpen = (value: any) => {
-    setEditDialog(value);
+  const handleClickEditOpen = (value: shiftProps) => {
     handleClickAddOpen();
+    setShift(value);
+
+    setDialogTitle("Edycja zmiany");
+    console.log("value:", value);
+    console.log("shift:", shift);
   };
   //  const handleClickEditClose = () => {
   //     setEditDialog(false);
@@ -118,9 +123,10 @@ const DialogManageShifts: React.FC<DialogManageShiftsProps> = ({
         </Button>
       </DialogActions>
       <DialogShift
-        shift={editDialog}
+        shift={shift}
         open={addDialog}
         handleClose={handleClickAddClose}
+        title={dialogTitle}
       />
     </Dialog>
   );

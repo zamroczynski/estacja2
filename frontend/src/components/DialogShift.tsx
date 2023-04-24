@@ -14,7 +14,8 @@ import {
 type DialogAddShiftProps = {
   open: boolean;
   handleClose: () => void;
-  shift?: {
+  title?: string;
+  shift: {
     id: string;
     name: string;
     timeFrom: string;
@@ -27,6 +28,7 @@ type DialogAddShiftProps = {
 const DialogShift: React.FC<DialogAddShiftProps> = ({
   open,
   handleClose,
+  title = "Nowa Zmiana",
   shift = {
     id: "",
     name: "",
@@ -36,13 +38,13 @@ const DialogShift: React.FC<DialogAddShiftProps> = ({
     numbersOfEmployees: "",
   },
 }) => {
-  const [id, setId] = React.useState(shift?.id ?? "");
-  const [name, setName] = React.useState(shift?.name ?? "");
-  const [timeFrom, setTimeFrom] = React.useState(shift?.timeFrom ?? "");
-  const [timeTo, setTimeTo] = React.useState(shift?.timeTo ?? "");
-  const [duration, setDuration] = React.useState(shift?.duration ?? "");
+  const [id, setId] = React.useState(shift.id);
+  const [name, setName] = React.useState(shift.name);
+  const [timeFrom, setTimeFrom] = React.useState(shift.timeFrom);
+  const [timeTo, setTimeTo] = React.useState(shift.timeTo);
+  const [duration, setDuration] = React.useState(shift.duration);
   const [numbersOfEmployees, setNumbersOfEmployees] = React.useState(
-    shift?.numbersOfEmployees ?? ""
+    shift.numbersOfEmployees
   );
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +75,7 @@ const DialogShift: React.FC<DialogAddShiftProps> = ({
 
   return (
     <Dialog open={open} onClose={handleClose} fullScreen>
-      <DialogTitle>Nowa zmiana</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <Box>
           <FormControl fullWidth>
