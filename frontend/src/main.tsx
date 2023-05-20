@@ -1,11 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ErrorPage from './pages/ErrorPage';
-import Home from './pages/Home';
-import ExpiryDates from './pages/ExpiryDates';
-import Administration from './pages/Administration';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import App from "./App";
+import { ErrorPage, Home, ExpiryDates, Administration } from "./pages";
 
 const router = createBrowserRouter([
   {
@@ -15,22 +12,22 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home user='user' />
+        element: <Home user="user" />,
       },
       {
         path: "/expiry-dates",
-        element: <ExpiryDates />
+        element: <ExpiryDates />,
       },
       {
         path: "/admin",
-        element: <Administration />
+        element: <Administration />,
       },
     ],
-  }
+  },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-      <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
