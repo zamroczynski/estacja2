@@ -24,6 +24,10 @@ class RegistrationController extends AbstractController
         $plainTextPassword = $decoded->password;
         $firstName = $decoded->firstName;
         $lastName = $decoded->lastName;
+        $role = $decoded->role;
+        $email = $decoded->email;
+        $phone = $decoded->phone;
+        $active = true;
 
         $user = new User();
         $hashedPassword = $passwordHasher->hashPassword($user, $plainTextPassword);
@@ -31,6 +35,10 @@ class RegistrationController extends AbstractController
         $user->setUsername($username);
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
+        $user->setRoles($role);
+        $user->setEmail($email);
+        $user->setPhone($phone);
+        $user->setActive($active);
         $em->persist($user);
         $em->flush();
 
