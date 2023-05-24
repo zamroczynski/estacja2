@@ -6,3 +6,6 @@ controllers:
 
 api_login_check:
   path: /api/login
+
+user_all:
+  path: /api/user
