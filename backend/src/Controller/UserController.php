@@ -71,15 +71,13 @@ class UserController extends AbstractController
             $user->setActive($payload['activate']);
             $doctrine->persist($user);
             $doctrine->flush();
-            $logger->debug('Update userID: {id}', [
-                'id' => $id,
-            ]);
+            $logger->info('UserID: {id} has been updated', ['id' => $id]);
             return $this->json([
                 'code' => 200,
                 'message' => 'Konto zostało zaktualizowane!'
             ]);
         } catch (Exception $e) {
-            $logger->critical($e->getMessage());
+            $logger->error("Error in UserController: {message}", ["message" => $e->getMessage()]);
             return $this->json([
                 'code' => 500,
                 'message' => 'Błąd podczas aktualizacji konta!'
