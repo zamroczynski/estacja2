@@ -1,17 +1,17 @@
-import { Button } from "@mui/material";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Logo from "./Logo";
+import { useSignOut } from "react-auth-kit";
+import { Button, Menu, MenuItem } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import NotificationsOffOutlinedIcon from "@mui/icons-material/NotificationsOffOutlined";
+import Logo from "./Logo";
 
 type NavbarProps = {
   isLoggedIn: boolean;
 };
 
 const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
+  const signOut = useSignOut();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -55,8 +55,8 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
           <Link to="/admin">
             <MenuItem onClick={handleClose}>Administracja</MenuItem>
           </Link>
-          <Link to="/logout">
-            <MenuItem onClick={handleClose}>Wyloguj</MenuItem>
+          <Link to="/">
+            <MenuItem onClick={() => signOut()}>Wyloguj</MenuItem>
           </Link>
         </Menu>
       </div>
