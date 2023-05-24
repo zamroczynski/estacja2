@@ -1,50 +1,80 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import React, { useState } from "react";
+import { Box, TextField, Button, Alert } from "@mui/material";
+import { useFormik } from "formik";
+import axios, { AxiosError } from "axios";
+import { useSignIn } from "react-auth-kit";
 
+const LoginForm: React.FC = () => {
+  const [error, setError] = useState("");
+  const signIn = useSignIn();
 
-type LoginFormProps = {
-    onLogin: (login: string, password: string) => void;
-};
+  const onSubmit = async (values: { login: string; password: string }) => {
+    setError("");
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/login_check",
+        values
+      );
 
-const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
+      signIn({
+        token: response.data.token,
+        expiresIn: 3600,
+        tokenType: "Bearer",
+        authState: { login: values.login },
+      });
+    } catch (err) {
+      if (err && err instanceof AxiosError)
+        setError(err.response?.data.message);
+      else if (err instanceof Error) setError(err.message);
 
-    const handleLogin = () => {
-        onLogin(login, password);
-    };
+      console.error("Error: ", err);
+    }
+  };
 
-    return (
-        <Box
-            component='form'
-            noValidate
-            autoComplete='off'
-            className='mt-5 mx-5'>
-            <TextField 
-                id='login' 
-                label='Login' 
-                variant='standard' 
-                value={login}
-                onChange={(e) => setLogin(e.target.value)} 
-                fullWidth />
-            <TextField 
-                id='password' 
-                label='Hasło' 
-                variant='standard' 
-                type='password' 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                fullWidth />
-            <Button 
-                variant='contained' 
-                className='mt-3 bg-lime-700 w-full'
-                onClick={() => handleLogin()}>
-                Zaloguj
-            </Button>
-        </Box>
-    );
+  const formik = useFormik({
+    initialValues: {
+      login: "",
+      password: "",
+    },
+    onSubmit,
+  });
+
+  return (
+    <Box
+      component="form"
+      autoComplete="off"
+      className="mt-5 mx-5"
+      onSubmit={formik.handleSubmit}
+    >
+      {error && <Alert severity="error">{error}</Alert>}
+      <TextField
+        id="login"
+        label="Login"
+        variant="standard"
+        value={formik.values.login}
+        onChange={formik.handleChange}
+        fullWidth
+        required
+      />
+      <TextField
+        id="password"
+        label="Hasło"
+        variant="standard"
+        type="password"
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        fullWidth
+        required
+      />
+      <Button
+        variant="contained"
+        className="mt-3 bg-lime-700 w-full"
+        type="submit"
+      >
+        Zaloguj
+      </Button>
+    </Box>
+  );
 };
 
 export default LoginForm;

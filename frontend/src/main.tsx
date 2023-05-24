@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RequireAuth, AuthProvider } from "react-auth-kit";
 import App from "./App";
 import { ErrorPage, Home, ExpiryDates, Administration } from "./pages";
 
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/expiry-dates",
-        element: <ExpiryDates />,
+        element: [
+          <RequireAuth loginPath="/">
+            <ExpiryDates />
+          </RequireAuth>,
+        ],
       },
       {
         path: "/admin",
@@ -28,6 +33,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider authType="cookie" authName="_auth" cookieSecure={false}>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
