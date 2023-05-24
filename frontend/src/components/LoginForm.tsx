@@ -8,11 +8,11 @@ const LoginForm: React.FC = () => {
   const [error, setError] = useState("");
   const signIn = useSignIn();
 
-  const onSubmit = async (values: { login: string; password: string }) => {
+  const onSubmit = async (values: { username: string; password: string }) => {
     setError("");
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/login_check",
+        "http://127.0.0.1:8000/api/login",
         values
       );
 
@@ -20,7 +20,7 @@ const LoginForm: React.FC = () => {
         token: response.data.token,
         expiresIn: 3600,
         tokenType: "Bearer",
-        authState: { login: values.login },
+        authState: { login: values.username },
       });
     } catch (err) {
       if (err && err instanceof AxiosError)
@@ -33,7 +33,7 @@ const LoginForm: React.FC = () => {
 
   const formik = useFormik({
     initialValues: {
-      login: "",
+      username: "",
       password: "",
     },
     onSubmit,
@@ -46,12 +46,16 @@ const LoginForm: React.FC = () => {
       className="mt-5 mx-5"
       onSubmit={formik.handleSubmit}
     >
-      {error && <Alert severity="error">{error}</Alert>}
+      {error && (
+        <Alert className="mb-2" severity="error">
+          {error}
+        </Alert>
+      )}
       <TextField
-        id="login"
+        id="username"
         label="Login"
         variant="standard"
-        value={formik.values.login}
+        value={formik.values.username}
         onChange={formik.handleChange}
         fullWidth
         required
