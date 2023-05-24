@@ -18,7 +18,7 @@ const router = createBrowserRouter([
       {
         path: "/expiry-dates",
         element: [
-          <RequireAuth loginPath="/">
+          <RequireAuth key="/expiry-dates" loginPath="/">
             <ExpiryDates />
           </RequireAuth>,
         ],
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: [
-          <RequireAuth loginPath="/">
+          <RequireAuth key="/admin" loginPath="/">
             <Administration />
           </RequireAuth>,
         ],
