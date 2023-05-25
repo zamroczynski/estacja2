@@ -5,16 +5,14 @@ import axios, { AxiosError } from "axios";
 import { useSignIn } from "react-auth-kit";
 
 const LoginForm: React.FC = () => {
+  const API_URL: string = import.meta.env.VITE_API_URL;
   const [error, setError] = useState("");
   const signIn = useSignIn();
 
   const onSubmit = async (values: { username: string; password: string }) => {
     setError("");
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/login",
-        values
-      );
+      const response = await axios.post(API_URL + "login", values);
 
       signIn({
         token: response.data.token,

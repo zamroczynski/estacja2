@@ -16,10 +16,15 @@ import {
   FormControl,
   Box,
   MenuItem,
+  Select,
+  InputLabel,
 } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select";
+import { useFormik } from "formik";
+import axios, { AxiosError } from "axios";
 import { EditIconButton, DeleteIconButton, DeleteDialog } from ".";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
+import { useAuthHeader, useSignOut } from "react-auth-kit";
+import { redirect } from "react-router-dom";
 
 interface AdminTableProps {
   rows: Array<{
@@ -33,6 +38,12 @@ interface AdminTableProps {
 }
 
 const AdminTableEmployees: React.FC<AdminTableProps> = ({ rows, cols }) => {
+  const signOut = useSignOut();
+  const authHeader = useAuthHeader();
+  const axiosConfig = {
+    headers: { Authorization: authHeader() },
+  };
+  const API_URL: string = import.meta.env.VITE_API_URL;
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -128,56 +139,114 @@ const AdminTableEmployees: React.FC<AdminTableProps> = ({ rows, cols }) => {
   };
 
   const AddDialog: React.FC = () => {
-    const [permissionValue, setPermissionValue] = React.useState("");
-    const handleChange = (event: SelectChangeEvent) => {
-      setPermissionValue(event.target.value as string);
+    const [error, setError] = React.useState("");
+
+    const onSubmit = async (values: any) => {
+      setError("");
+      try {
+        const respone = await axios.post(
+          API_URL + "register",
+          values,
+          axiosConfig
+        );
+      } catch (err) {
+        if (err && err instanceof AxiosError) {
+          setError(err.response?.data.message);
+          if (err.response?.status === 401) {
+            signOut();
+            return redirect("/");
+          }
+        } else if (err instanceof Error) setError(err.message);
+        console.error("Error: ", err);
+      }
+      handleCloseAdd();
     };
+
+    const formik = useFormik({
+      initialValues: {
+        username: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        role: [],
+        email: "",
+        phone: "",
+      },
+      onSubmit,
+    });
+
     return (
       <div>
         <Dialog open={openAdd} onClose={handleCloseAdd} fullScreen>
           <DialogTitle>Dodaj Pracownika</DialogTitle>
-          <DialogContent>
-            <FormControl fullWidth>
-              <TextField select label="Uprawnienia" value={permissionValue}>
-                <MenuItem value={1}>Administrator</MenuItem>
-                <MenuItem value={2}>Użytkownik</MenuItem>
-              </TextField>
-              <TextField
-                margin="dense"
-                label="Login"
-                variant="outlined"
-                value=""
-              />
-              <TextField
-                margin="dense"
-                label="Hasło"
-                variant="outlined"
-                value=""
-              />
-              <TextField
-                margin="dense"
-                label="Imię i nazwisko"
-                variant="outlined"
-                value=""
-              />
-              <TextField
-                margin="dense"
-                label="eMail"
-                variant="outlined"
-                value=""
-              />
-              <TextField
-                margin="dense"
-                label="Telefon"
-                variant="outlined"
-                value=""
-              />
-            </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseAdd}>Anuluj</Button>
-            <Button onClick={handleCloseAdd}>Zapisz</Button>
-          </DialogActions>
+          <Box component="form" onSubmit={formik.handleSubmit}>
+            <DialogContent>
+              <FormControl fullWidth>
+                <TextField
+                  margin="dense"
+                  label="Login"
+                  variant="outlined"
+                  value={formik.values.username}
+                  onChange={formik.handleChange}
+                  id="username"
+                  name="username"
+                  required
+                />
+                <TextField
+                  margin="dense"
+                  label="Hasło"
+                  variant="outlined"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  id="password"
+                  name="password"
+                  required
+                />
+                <TextField
+                  margin="dense"
+                  label="Imię"
+                  variant="outlined"
+                  value={formik.values.firstName}
+                  onChange={formik.handleChange}
+                  id="firstName"
+                  name="firstName"
+                  required
+                />
+                <TextField
+                  margin="dense"
+                  label="Nazwisko"
+                  variant="outlined"
+                  value={formik.values.lastName}
+                  onChange={formik.handleChange}
+                  id="lastName"
+                  name="lastName"
+                  required
+                />
+                <TextField
+                  margin="dense"
+                  label="eMail"
+                  variant="outlined"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  id="email"
+                  name="email"
+                />
+                <TextField
+                  margin="dense"
+                  label="Telefon"
+                  variant="outlined"
+                  value={formik.values.phone}
+                  onChange={formik.handleChange}
+                  id="phone"
+                  name="phone"
+                />
+              </FormControl>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseAdd}>Anuluj</Button>
+              <Button type="submit">Zapisz</Button>
+            </DialogActions>
+          </Box>
         </Dialog>
       </div>
     );
