@@ -46,7 +46,8 @@ class UserController extends AbstractController
             'lastName' => $user->getLastName(),
             'role' => $user->getRoles(),
             'email' => $user->getEmail(),
-            'phone' => $user->getPhone()
+            'phone' => $user->getPhone(),
+            'active' => $user->isActive()
         ];
         return $this->json($data);
     }
@@ -72,6 +73,35 @@ class UserController extends AbstractController
             $doctrine->persist($user);
             $doctrine->flush();
             $logger->info('UserID: {id} has been updated', ['id' => $id]);
+            return $this->json([
+                'code' => 200,
+                'message' => 'Konto zostało zaktualizowane!'
+            ]);
+        } catch (Exception $e) {
+            $logger->error("Error in UserController: {message}", ["message" => $e->getMessage()]);
+            return $this->json([
+                'code' => 500,
+                'message' => 'Błąd podczas aktualizacji konta!'
+            ]);
+        }
+    }
+
+    #[Route('/user/{id}', name: 'user_deactivate', methods: ['DELETE'])]
+    public function deactivate(EntityManagerInterface $doctrine, int $id, LoggerInterface $logger): JsonResponse
+    {
+        $user = $doctrine->getRepository(User::class)->find($id);
+        if (!$user) {
+            return $this->json([
+                'code' => 404,
+                'message' => "Brak konta o takim ID"
+            ]);
+        }
+        try {
+            $userIsActive = $user->isActive();
+            $user->setActive(!$userIsActive);
+            $doctrine->persist($user);
+            $doctrine->flush();
+            $logger->info('UserID: {id} has been deactivate', ['id' => $id]);
             return $this->json([
                 'code' => 200,
                 'message' => 'Konto zostało zaktualizowane!'
