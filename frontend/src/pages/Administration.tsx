@@ -1,5 +1,8 @@
 import * as React from "react";
 import { Container, Tabs, Tab, Box } from "@mui/material";
+import axios, { AxiosError } from "axios";
+import { useAuthHeader, useSignOut } from "react-auth-kit";
+import { redirect } from "react-router-dom";
 import {
   AdminTableTasks,
   AdminTableEmployees,
@@ -41,9 +44,35 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const Administration: React.FC = () => {
+  const [error, setError] = React.useState("");
+  const API_URL: string = import.meta.env.VITE_API_URL;
+  const signOut = useSignOut();
+  const authHeader = useAuthHeader();
+  const axiosConfig = {
+    headers: { Authorization: authHeader() },
+  };
   const [tabValue, setTabValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    if (newValue === 0) {
+      try {
+        const response = axios
+          .get(API_URL + "user", axiosConfig)
+          .then((response) => {
+            console.log(response.data);
+          });
+      } catch (err) {
+        if (err && err instanceof AxiosError) {
+          setError(err.response?.data.message);
+          if (err.response?.status === 401) {
+            signOut();
+            return redirect("/");
+          }
+        } else if (err instanceof Error) setError(err.message);
+        console.error("Error: ", err);
+      }
+    }
+    console.log(newValue);
     setTabValue(newValue);
   };
   return (
