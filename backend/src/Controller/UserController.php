@@ -21,12 +21,15 @@ class UserController extends AbstractController
         $users = $doctrine->getRepository(User::class)->findAll();
         $data = [];
         foreach ($users as $user) {
+            if (in_array("ROLE_ADMIN", $user->getRoles()))
+                $permissions = "Administrator";
+            else $permissions = "Użytkownik";
             $data[] = [
                 'id' => $user->getId(),
                 'username' => $user->getUsername(),
                 'firstName' => $user->getFirstName(),
                 'lastName' => $user->getLastName(),
-                'role' => $user->getRoles(),
+                'permissions' => $permissions,
                 'email' => $user->getEmail(),
                 'phone' => $user->getPhone(),
                 'activate' => $user->isActive()
@@ -39,12 +42,15 @@ class UserController extends AbstractController
     public function show(EntityManagerInterface $doctrine, int $id): JsonResponse
     {
         $user = $doctrine->getRepository(User::class)->find($id);
+        if (in_array("ROLE_ADMIN", $user->getRoles()))
+            $permissions = "Administrator";
+        else $permissions = "Użytkownik";
         $data[] = [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
             'firstName' => $user->getFirstName(),
             'lastName' => $user->getLastName(),
-            'role' => $user->getRoles(),
+            'permissions' => $permissions,
             'email' => $user->getEmail(),
             'phone' => $user->getPhone(),
             'active' => $user->isActive()
