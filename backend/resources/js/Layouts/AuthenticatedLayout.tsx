@@ -20,18 +20,48 @@ export default function Authenticated({
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
-                            <div className="shrink-0 flex items-center text-3xl">
-                                <Link href="/">
+                            <div className="shrink-0 flex items-center lg:text-3xl">
+                                <Link href={route("dashboard")}>
                                     <ApplicationLogo />
                                 </Link>
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
+                                    href="#"
+                                    active={route().current("eds")}
                                 >
-                                    Strona główna
+                                    Terminy
+                                </NavLink>
+                                <NavLink
+                                    href="#"
+                                    active={route().current("ads")}
+                                >
+                                    Ogłoszenia
+                                </NavLink>
+                                <NavLink
+                                    href="#"
+                                    active={route().current("planograms")}
+                                >
+                                    Planogramy
+                                </NavLink>
+                                <NavLink
+                                    href="#"
+                                    active={route().current("taasks")}
+                                >
+                                    Zadania
+                                </NavLink>
+                                <NavLink
+                                    href="#"
+                                    active={route().current("schedule")}
+                                >
+                                    Grafik
+                                </NavLink>
+                                <NavLink
+                                    href="#"
+                                    active={route().current("admin")}
+                                >
+                                    Administracja
                                 </NavLink>
                             </div>
                         </div>
@@ -132,23 +162,44 @@ export default function Authenticated({
                 >
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
+                            href="#"
+                            active={route().current("eds")}
                         >
-                            Strona główna
+                            Terminy
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href="#"
+                            active={route().current("ads")}
+                        >
+                            Ogłoszenia
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href="#"
+                            active={route().current("planograms")}
+                        >
+                            Planogramy
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href="#"
+                            active={route().current("taasks")}
+                        >
+                            Zadania
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href="#"
+                            active={route().current("schedule")}
+                        >
+                            Grafik
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href="#"
+                            active={route().current("admin")}
+                        >
+                            Administracja
                         </ResponsiveNavLink>
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800 dark:text-gray-200">
-                                {user.name}
-                            </div>
-                            <div className="font-medium text-sm text-gray-500">
-                                {user.email}
-                            </div>
-                        </div>
-
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink href={route("profile.edit")}>
                                 Mój profil
@@ -167,7 +218,7 @@ export default function Authenticated({
 
             {header && (
                 <header className="bg-white dark:bg-gray-800 shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w mx-auto py-6 px-2 sm:px-6 lg:px-8">
                         {header}
                     </div>
                 </header>
