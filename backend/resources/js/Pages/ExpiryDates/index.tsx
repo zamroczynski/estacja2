@@ -26,7 +26,7 @@ export default function index({
 
             <div className="py-12">
                 <div className="mx-auto sm:px-6 lg:px-8 space-y-6">
-                    <div className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg ">
+                    <div className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg dark:text-white">
                         <div className="flex justify-center items-center">
                             <Tabs
                                 value={tabValue}
@@ -34,6 +34,7 @@ export default function index({
                                 variant="scrollable"
                                 scrollButtons
                                 allowScrollButtonsMobile
+                                sx={{ color: "white" }}
                             >
                                 <Tab label="Terminy" />
                                 <Tab label="Dodaj termin" />
