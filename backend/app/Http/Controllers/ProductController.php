@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use Inertia\Inertia;
+use Illuminate\Http\Request;
+use Inertia\Response;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): Response
     {
-        //
+        return Inertia::render('ExpiryDates/index', [
+            'products' => Product::all(),
+        ]);
     }
 
     /**

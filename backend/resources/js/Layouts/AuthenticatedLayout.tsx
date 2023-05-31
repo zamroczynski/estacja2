@@ -28,7 +28,7 @@ export default function Authenticated({
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href="#"
+                                    href={route("eds.index")}
                                     active={route().current("eds")}
                                 >
                                     Terminy
