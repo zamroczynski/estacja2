@@ -11,12 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('expiry_dates', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
+            $table->date('date');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('amount')->nullable();
             $table->unsignedBigInteger('create_by');
             $table->unsignedBigInteger('update_by');
             $table->timestamps();
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('create_by')->references('id')->on('users');
+            $table->foreign('update_by')->references('id')->on('users');
             $table->softDeletes();
         });
     }
@@ -27,9 +32,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('expiry_dates', function (Blueprint $table) {
+            $table->dropForeign('product_id');
             $table->dropForeign('create_by');
             $table->dropForeign('update_by');
         });
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('expiry_dates');
     }
 };

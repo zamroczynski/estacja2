@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -15,6 +18,15 @@ class Product extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'name'
+        'name',
+        'active',
     ];
+
+    /**
+     * Get the expiry dates for the product.
+     */
+    public function expiryDates(): HasMany
+    {
+        return $this->hasMany(ExpiryDate::class);
+    }
 }
