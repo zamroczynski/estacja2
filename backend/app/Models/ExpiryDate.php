@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ExpiryDate extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,8 +20,8 @@ class ExpiryDate extends Model
         'date',
         'product_id',
         'amount',
-        'create_by',
-        'update_by',
+        'created_by',
+        'updated_by',
     ];
 
     /**
@@ -36,8 +35,16 @@ class ExpiryDate extends Model
     /**
      * Get the user who add the expiry date.
      */
-    public function user(): BelongsTo
+    public function userCreate(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Get the user who update the expiry date.
+     */
+    public function userUpdate(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

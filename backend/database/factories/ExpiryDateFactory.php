@@ -17,7 +17,11 @@ class ExpiryDateFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'date' => fake()->dateTimeThisYear(),
+            'product_id' => fake()->numberBetween(1, 7),
+            'amount' => fake()->numberBetween(1, 20),
+            'created_by' => fake()->numberBetween(1, 2),
+            'updated_by' => fake()->numberBetween(1, 2),
         ];
     }
 }

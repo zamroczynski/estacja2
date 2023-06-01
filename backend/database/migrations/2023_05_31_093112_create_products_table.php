@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->unsignedBigInteger('create_by');
-            $table->unsignedBigInteger('update_by');
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('updated_by');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,9 +26,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('expiry_dates', function (Blueprint $table) {
-            $table->dropForeign('create_by');
-            $table->dropForeign('update_by');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign('created_by');
+            $table->dropForeign('updated_by');
+            $table->dropSoftDeletes();
         });
         Schema::dropIfExists('products');
     }

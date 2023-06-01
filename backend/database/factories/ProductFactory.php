@@ -18,6 +18,8 @@ class ProductFactory extends Factory
     {
         return [
             'name' => fake()->word(),
+            'created_by' => fake()->numberBetween(1, 2),
+            'updated_by' => fake()->numberBetween(1, 2),
         ];
     }
 }

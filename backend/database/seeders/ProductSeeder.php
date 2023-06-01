@@ -13,25 +13,39 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Product::factory()->create([
-            'name' => 'Piwo Żubr puszka 0,5l'
+            'name' => 'Piwo Żubr puszka 0,5l',
+            'created_by' => fake()->numberBetween(1, 2),
+            'updated_by' => fake()->numberBetween(1, 2),
         ]);
         \App\Models\Product::factory()->create([
-            'name' => 'Piwo Tyskie puszka 0,5l'
+            'name' => 'Piwo Tyskie puszka 0,5l',
+            'created_by' => fake()->numberBetween(1, 2),
+            'updated_by' => fake()->numberBetween(1, 2),
         ]);
         \App\Models\Product::factory()->create([
-            'name' => 'Piwo Harnaś puszka 0,5l'
+            'name' => 'Piwo Harnaś puszka 0,5l',
+            'created_by' => fake()->numberBetween(1, 2),
+            'updated_by' => fake()->numberBetween(1, 2),
         ]);
         \App\Models\Product::factory()->create([
-            'name' => 'Piwo Tyskie butelka 0,65l'
+            'name' => 'Piwo Tyskie butelka 0,65l',
+            'created_by' => fake()->numberBetween(1, 2),
+            'updated_by' => fake()->numberBetween(1, 2),
         ]);
         \App\Models\Product::factory()->create([
-            'name' => 'Baton Mars 40g'
+            'name' => 'Baton Mars 40g',
+            'created_by' => fake()->numberBetween(1, 2),
+            'updated_by' => fake()->numberBetween(1, 2),
         ]);
         \App\Models\Product::factory()->create([
-            'name' => 'Baton Snickers 40g'
+            'name' => 'Baton Snickers 40g',
+            'created_by' => fake()->numberBetween(1, 2),
+            'updated_by' => fake()->numberBetween(1, 2),
         ]);
         \App\Models\Product::factory()->create([
-            'name' => 'Baton Grześki 30g'
+            'name' => 'Baton Grześki 30g',
+            'created_by' => fake()->numberBetween(1, 2),
+            'updated_by' => fake()->numberBetween(1, 2),
         ]);
     }
 }

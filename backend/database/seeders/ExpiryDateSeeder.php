@@ -12,6 +12,6 @@ class ExpiryDateSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        \App\Models\ExpiryDate::factory(200)->create();
     }
 }

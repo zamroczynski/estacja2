@@ -16,12 +16,12 @@ return new class extends Migration
             $table->date('date');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('amount')->nullable();
-            $table->unsignedBigInteger('create_by');
-            $table->unsignedBigInteger('update_by');
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('updated_by');
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('create_by')->references('id')->on('users');
-            $table->foreign('update_by')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
             $table->softDeletes();
         });
     }
@@ -33,8 +33,9 @@ return new class extends Migration
     {
         Schema::table('expiry_dates', function (Blueprint $table) {
             $table->dropForeign('product_id');
-            $table->dropForeign('create_by');
-            $table->dropForeign('update_by');
+            $table->dropForeign('created_by');
+            $table->dropForeign('updated_by');
+            $table->dropSoftDeletes();
         });
         Schema::dropIfExists('expiry_dates');
     }
