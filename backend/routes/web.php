@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ExpiryDateController;
+use App\Models\ExpiryDate;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/eds', [ProductController::class, 'index'])->name('eds.index');
+    Route::get('/eds', [ExpiryDateController::class, 'index'])->name('eds.index');
 });
 
 require __DIR__ . '/auth.php';

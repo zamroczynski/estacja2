@@ -1,4 +1,5 @@
 import * as React from "react";
+import { usePage } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -7,22 +8,42 @@ import {
     TableHead,
     TableRow,
     Paper,
-    ThemeProvider,
 } from "@mui/material";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
+import "dayjs/locale/en-gb";
 
-import DarkTheme from "@/Themes/DarkTheme";
+import { Pagination } from ".";
 
 // interface TableExpiryDatesProps {
-//     children?: React.ReactNode;
-//     index: number;
-//     value: number;
+//     expiryDates: Array<any>;
 // }
 
+interface expiryDateProps {
+    id: number;
+    amount: number;
+    date: string;
+    product_id: number;
+    product: any;
+    created_at: string;
+    created_by: number;
+    updated_at: string;
+    updated_by: number;
+    deleted_at: any;
+}
+
+const columns: GridColDef[] = [
+    { field: "name", headerName: "Nazwa produktu", flex: 1 },
+    { field: "date", headerName: "Termin przydatności", flex: 1 },
+    { field: "amount", headerName: "Ilość", type: "number", flex: 1 },
+];
+
 const TableExpiryDates: React.FC = () => {
+    const { expiryDates }: any = usePage().props;
+    const data: Array<expiryDateProps> = expiryDates.data;
     const today = dayjs();
     return (
         <div>
@@ -39,26 +60,50 @@ const TableExpiryDates: React.FC = () => {
                 </DemoContainer>
             </LocalizationProvider>
 
-            <TableContainer className="mt-4" component={Paper}>
+            <DataGrid
+                className="mt-2"
+                rows={expiryDates}
+                columns={columns}
+                initialState={{
+                    pagination: {
+                        paginationModel: { page: 0, pageSize: 15 },
+                    },
+                }}
+                slots={{
+                    toolbar: GridToolbar,
+                }}
+            />
+
+            {/* <TableContainer className="mt-4" component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">Nazwa produktu</TableCell>
-                            <TableCell align="center">
+                            <TableCell align="right">
                                 Termin przydatności
                             </TableCell>
-                            <TableCell align="center">Ilość</TableCell>
+                            <TableCell align="right">Ilość</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell align="center">Cistka</TableCell>
-                            <TableCell align="right">31.05.2023</TableCell>
-                            <TableCell align="right">2</TableCell>
-                        </TableRow>
+                        {data.map((row) => (
+                            <TableRow key={row.id}>
+                                <TableCell align="center">
+                                    {row.product.name}
+                                </TableCell>
+                                <TableCell align="right">{row.date}</TableCell>
+                                <TableCell align="right">
+                                    {row.amount}
+                                </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+                <Pagination
+                    total={expiryDates.total}
+                    perPage={expiryDates.per_page}
+                />
+            </TableContainer> */}
         </div>
     );
 };

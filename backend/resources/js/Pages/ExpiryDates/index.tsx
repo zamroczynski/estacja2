@@ -9,7 +9,8 @@ import DarkTheme from "@/Themes/DarkTheme";
 
 export default function index({
     auth,
-}: PageProps<{ products: Array<string> }>) {
+    expiryDates,
+}: PageProps<{ expiryDates: any }>) {
     const [tabValue, setTabValue] = React.useState(0);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
