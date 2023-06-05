@@ -1,5 +1,5 @@
 import * as React from "react";
-import { usePage } from "@inertiajs/react";
+import { usePage, router } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -9,18 +9,13 @@ import {
     TableRow,
     Paper,
 } from "@mui/material";
+import axios from "axios";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import "dayjs/locale/en-gb";
-
-import { Pagination } from ".";
-
-// interface TableExpiryDatesProps {
-//     expiryDates: Array<any>;
-// }
 
 interface expiryDateProps {
     id: number;
@@ -41,10 +36,26 @@ const columns: GridColDef[] = [
     { field: "amount", headerName: "Ilość", type: "number", flex: 1 },
 ];
 
+const http = axios.create({
+    baseURL: "http://localhost:8000",
+    timeout: 10000,
+});
+
 const TableExpiryDates: React.FC = () => {
     const { expiryDates }: any = usePage().props;
-    const data: Array<expiryDateProps> = expiryDates.data;
-    const today = dayjs();
+    const [data, setData] = React.useState<expiryDateProps[]>(expiryDates);
+    const today = dayjs(expiryDates.date);
+    const [dateValue, setDateValue] = React.useState(today);
+
+    const handleDateChange = async (e: any) => {
+        const newDate = e.format("YYYY-MM-DD").toString();
+        setDateValue(e);
+        const searchParams = new URLSearchParams({ newDate });
+        const response = await http.get(`/eds?${searchParams}`);
+        console.log(response.data.expiryDates);
+        setData(response.data.expiryDates);
+    };
+
     return (
         <div>
             <LocalizationProvider
@@ -54,27 +65,14 @@ const TableExpiryDates: React.FC = () => {
                 <DemoContainer components={["DatePicker"]}>
                     <DatePicker
                         label="Wybierz datę"
-                        defaultValue={today}
+                        value={dateValue}
                         slotProps={{ textField: { fullWidth: true } }}
+                        onChange={(e) => handleDateChange(e)}
                     />
                 </DemoContainer>
             </LocalizationProvider>
 
-            <DataGrid
-                className="mt-2"
-                rows={expiryDates}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 15 },
-                    },
-                }}
-                slots={{
-                    toolbar: GridToolbar,
-                }}
-            />
-
-            {/* <TableContainer className="mt-4" component={Paper}>
+            <TableContainer className="mt-4" component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -99,11 +97,7 @@ const TableExpiryDates: React.FC = () => {
                         ))}
                     </TableBody>
                 </Table>
-                <Pagination
-                    total={expiryDates.total}
-                    perPage={expiryDates.per_page}
-                />
-            </TableContainer> */}
+            </TableContainer>
         </div>
     );
 };
