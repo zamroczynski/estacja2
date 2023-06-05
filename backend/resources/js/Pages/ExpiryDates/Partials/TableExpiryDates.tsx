@@ -1,5 +1,5 @@
 import * as React from "react";
-import { usePage, router } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -9,13 +9,14 @@ import {
     TableRow,
     Paper,
 } from "@mui/material";
-import axios from "axios";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import "dayjs/locale/en-gb";
+
+import http from "@/http";
 
 interface expiryDateProps {
     id: number;
@@ -30,17 +31,6 @@ interface expiryDateProps {
     deleted_at: any;
 }
 
-const columns: GridColDef[] = [
-    { field: "name", headerName: "Nazwa produktu", flex: 1 },
-    { field: "date", headerName: "Termin przydatności", flex: 1 },
-    { field: "amount", headerName: "Ilość", type: "number", flex: 1 },
-];
-
-const http = axios.create({
-    baseURL: "http://localhost:8000",
-    timeout: 10000,
-});
-
 const TableExpiryDates: React.FC = () => {
     const { expiryDates }: any = usePage().props;
     const [data, setData] = React.useState<expiryDateProps[]>(expiryDates);
@@ -48,11 +38,10 @@ const TableExpiryDates: React.FC = () => {
     const [dateValue, setDateValue] = React.useState(today);
 
     const handleDateChange = async (e: any) => {
-        const newDate = e.format("YYYY-MM-DD").toString();
         setDateValue(e);
+        const newDate = e.format("YYYY-MM-DD").toString();
         const searchParams = new URLSearchParams({ newDate });
         const response = await http.get(`/eds?${searchParams}`);
-        console.log(response.data.expiryDates);
         setData(response.data.expiryDates);
     };
 
