@@ -22,7 +22,7 @@ interface productsProps {
 const AddProductForm: any = () => {
     const { errors }: any | null = usePage().props;
     const [productName, setProductName] = React.useState<string>("");
-    const [status, setStatus] = React.useState<any>(0);
+    const [status, setStatus] = React.useState<any>("0");
     const [statusMessage, setStatusMessage] = React.useState<any>("");
     const handleSubmit = async (e: React.FormEvent) => {
         setStatus(0);
@@ -35,7 +35,7 @@ const AddProductForm: any = () => {
             router.post("/product/store", data, {
                 onSuccess: (page) => {
                     setStatusMessage("Produkt został dodany!");
-                    setStatus(200);
+                    setStatus("200");
                 },
                 onError: (page) => {
                     setStatusMessage(page.message);
@@ -49,14 +49,14 @@ const AddProductForm: any = () => {
     };
     return (
         <Box component="form" onSubmit={handleSubmit}>
-            {status === 200 && (
+            {status === "200" && (
                 <Alert severity="success" className="mb-4">
                     {statusMessage}
                 </Alert>
             )}
-            {errors?.status === "500" && (
+            {status === "500" && (
                 <Alert severity="error" className="mb-4">
-                    {errors?.message}
+                    {statusMessage}
                 </Alert>
             )}
             <TextField

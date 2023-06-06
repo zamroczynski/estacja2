@@ -74,7 +74,17 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+        $checkProductNameExist = Product::where('name', '=', $request->name)->withTrashed()->first();
+        if ($checkProductNameExist != null) {
+            $errors = ['status' => '500', 'message' => 'Nazwa zajęta'];
+            return to_route('eds.index', ['errors' => $errors]);
+        }
+        $product->name = $request->name;
+        $product->save();
+        return to_route('eds.index');
     }
 
     /**

@@ -8,24 +8,19 @@ import {
     TableHead,
     TableRow,
     Paper,
+    Alert,
 } from "@mui/material";
 
-import DeleteIconButton from "@/Components/DeleteIcon";
+import { DeleteIconButton, EditIconButton } from "@/Components";
 import http from "@/http";
-
-interface productsProps {
-    id: number;
-    name: string;
-    created_at: string;
-    created_by: number;
-    updated_at: string;
-    updated_by: number;
-    deleted_at: any;
-}
+import { DialogEditProductForm } from ".";
+import productProps from "@/types/productProps";
 
 const TableProducts: React.FC = () => {
-    // const [myProducts, setMyProducts] = React.useState<productsProps[]>([]);
-    const [myProducts, setMyProducts] = React.useState<productsProps[]>([]);
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [myProducts, setMyProducts] = React.useState<productProps[]>([]);
+    const [editProductId, setEditProductId] = React.useState<number>(0);
+    const [editProductName, setEditProductName] = React.useState<string>("");
     const [status, setStatus] = React.useState<string>("0");
     const [statusMessage, setStatusMessage] = React.useState<string>("");
 
@@ -54,9 +49,31 @@ const TableProducts: React.FC = () => {
         });
         getProducts();
     };
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+    };
+
+    const handleEdit = (product: productProps) => {
+        setStatus("0");
+        setStatusMessage("");
+        setEditProductId(product.id);
+        setEditProductName(product.name);
+        setOpenDialog(true);
+    };
     console.log(myProducts);
     return (
         <div>
+            {status === "200" && (
+                <Alert severity="success" className="mb-4">
+                    {statusMessage}
+                </Alert>
+            )}
+            {status === "500" && (
+                <Alert severity="error" className="mb-4">
+                    {statusMessage}
+                </Alert>
+            )}
             <TableContainer className="mt-4" component={Paper}>
                 <Table>
                     <TableHead>
@@ -70,8 +87,11 @@ const TableProducts: React.FC = () => {
                             <TableRow key={row.id}>
                                 <TableCell align="center">{row.name}</TableCell>
                                 <TableCell align="right">
+                                    <EditIconButton
+                                        onClick={() => handleEdit(row)}
+                                    />
                                     <DeleteIconButton
-                                        onClick={(e) => handleDelete(row.id)}
+                                        onClick={() => handleDelete(row.id)}
                                     />
                                 </TableCell>
                             </TableRow>
@@ -79,6 +99,16 @@ const TableProducts: React.FC = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <DialogEditProductForm
+                open={openDialog}
+                setOpenDialog={setOpenDialog}
+                productId={editProductId}
+                productName={editProductName}
+                setProductName={setEditProductName}
+                getProduct={getProducts}
+                setStatus={setStatus}
+                setStatusMessage={setStatusMessage}
+            />
         </div>
     );
 };
