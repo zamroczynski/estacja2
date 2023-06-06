@@ -66,7 +66,6 @@ class ExpiryDateController extends Controller
         $expiryDate->product_id = $requestProductId;
         $expiryDate->amount = $requestAmount;
         $expiryDate->save();
-        session(['edsMessage' => 'Termin został dodany!']);
         return to_route('eds.index');
     }
 

@@ -49,7 +49,7 @@ const AddExpiryDateForm: any = () => {
                 date: dateValue,
                 amount: amounValue,
             };
-            router.post("/eds/create", data, {
+            router.post("/eds/store", data, {
                 onSuccess: (page) => {
                     setStatusMessage("Termin został dodany!");
                     setStatus(200);

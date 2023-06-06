@@ -39,7 +39,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/eds', [ExpiryDateController::class, 'index'])->name('eds.index');
     Route::get('/products', [ProductController::class, 'index']);
-    Route::post('/eds/create', [ExpiryDateController::class, 'store'])->name('eds.store');
+    Route::post('/eds/store', [ExpiryDateController::class, 'store'])->name('eds.store');
+    Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
 });
 
 require __DIR__ . '/auth.php';

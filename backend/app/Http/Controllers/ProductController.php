@@ -37,7 +37,13 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $validated = $request->validate([
+            'productName' => ['required', 'string', 'max:255'],
+        ]);
+        $product = new Product();
+        $product->name = $request->productName;
+        $product->save();
+        return to_route('eds.index');
     }
 
     /**
