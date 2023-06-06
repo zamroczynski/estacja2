@@ -40,6 +40,11 @@ class ProductController extends Controller
         $validated = $request->validate([
             'productName' => ['required', 'string', 'max:255'],
         ]);
+        $checkProductNameExist = Product::where('name', '=', $request->productName)->first();
+        if ($checkProductNameExist != null) {
+            $errors = ['status' => '500', 'message' => 'Taki produkt już istnieje!'];
+            return to_route('eds.index', ['errors' => $errors]);
+        }
         $product = new Product();
         $product->name = $request->productName;
         $product->save();
