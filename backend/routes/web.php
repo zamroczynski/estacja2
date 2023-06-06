@@ -37,10 +37,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    //EDS
     Route::get('/eds', [ExpiryDateController::class, 'index'])->name('eds.index');
+    Route::post('/eds/store', [ExpiryDateController::class, 'store']);
+
+    //PRODUCTS
     Route::get('/products', [ProductController::class, 'index']);
-    Route::post('/eds/store', [ExpiryDateController::class, 'store'])->name('eds.store');
-    Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
+    Route::get('/products/my', [ProductController::class, 'showMy']);
+    Route::post('/product/store', [ProductController::class, 'store']);
+    Route::get('/product/destroy/{product}', [ProductController::class, 'destroy']);
 });
 
 require __DIR__ . '/auth.php';

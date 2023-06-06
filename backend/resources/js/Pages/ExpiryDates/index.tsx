@@ -7,6 +7,7 @@ import {
     TableExpiryDates,
     AddExpiryDateForm,
     AddProductForm,
+    TableProducts,
 } from "./Partials";
 import { PageProps } from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -62,7 +63,7 @@ export default function index({
                                 <AddProductForm />
                             </TabPanel>
                             <TabPanel value={tabValue} index={3}>
-                                Produkty
+                                <TableProducts />
                             </TabPanel>
                             <TabPanel value={tabValue} index={4}>
                                 Zarządzaj

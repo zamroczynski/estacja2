@@ -40,7 +40,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'productName' => ['required', 'string', 'max:255'],
         ]);
-        $checkProductNameExist = Product::where('name', '=', $request->productName)->first();
+        $checkProductNameExist = Product::where('name', '=', $request->productName)->withTrashed()->first();
         if ($checkProductNameExist != null) {
             $errors = ['status' => '500', 'message' => 'Taki produkt już istnieje!'];
             return to_route('eds.index', ['errors' => $errors]);
@@ -52,11 +52,13 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display products added by user
      */
-    public function show(Product $product)
+    public function showMy(Request $request)
     {
-        //
+        return response()->json([
+            'products' => Product::where('created_by', '=', 1)->get(),
+        ]);
     }
 
     /**
@@ -80,6 +82,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return to_route('eds.index');
     }
 }
