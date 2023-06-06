@@ -14,11 +14,14 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): Response
+    public function index(Request $request)
     {
-        return Inertia::render('ExpiryDates/index', [
-            'products' => Product::all(),
-        ]);
+        if ($request->has('name')) {
+            $name = $request->get('name');
+            return response()->json([
+                'products' => Product::where('name', 'LIKE', '%' . $name . '%')->get(['id', 'name']),
+            ]);
+        }
     }
 
     /**

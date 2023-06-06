@@ -2,7 +2,7 @@ import * as React from "react";
 import { Head } from "@inertiajs/react";
 import { Tab, Tabs, ThemeProvider } from "@mui/material";
 
-import { TabPanel, TableExpiryDates } from "./Partials";
+import { TabPanel, TableExpiryDates, AddExpiryDateForm } from "./Partials";
 import { PageProps } from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DarkTheme from "@/Themes/DarkTheme";
@@ -51,7 +51,7 @@ export default function index({
                                 <TableExpiryDates />
                             </TabPanel>
                             <TabPanel value={tabValue} index={1}>
-                                Dodaj
+                                <AddExpiryDateForm />
                             </TabPanel>
                             <TabPanel value={tabValue} index={2}>
                                 Dodaj prod

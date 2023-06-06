@@ -162,7 +162,7 @@ export default function Authenticated({
                 >
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            href="#"
+                            href={route("eds.index")}
                             active={route().current("eds")}
                         >
                             Terminy

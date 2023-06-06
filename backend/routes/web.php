@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/eds', [ExpiryDateController::class, 'index'])->name('eds.index');
+    Route::get('/products', [ProductController::class, 'index']);
+    Route::post('/eds/create', [ExpiryDateController::class, 'store'])->name('eds.store');
 });
 
 require __DIR__ . '/auth.php';
