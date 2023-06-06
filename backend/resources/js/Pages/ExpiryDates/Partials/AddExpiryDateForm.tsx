@@ -25,12 +25,12 @@ const AddExpiryDateForm: any = () => {
     const today = dayjs();
     const [dateValue, setDateValue] = React.useState<any>(today);
     const [amounValue, setAmounValue] = React.useState<any>(1);
-    const [selectedProduct, setSelectedProduct] = React.useState<any>({});
+    const [selectedProduct, setSelectedProduct] = React.useState<any>();
     const [status, setStatus] = React.useState<any>(0);
     const [statusMessage, setStatusMessage] = React.useState<any>("");
     React.useEffect(() => {
         searchProductsByName("");
-        if (products && !selectedProduct) {
+        if (!products) {
             setSelectedProduct(products[0]);
         }
     }, []);
@@ -98,7 +98,7 @@ const AddExpiryDateForm: any = () => {
                             ...params.inputProps,
                             autoComplete: "new-password",
                         }}
-                        required={selectedProduct.length === 0}
+                        required={!selectedProduct}
                     />
                 )}
             />
