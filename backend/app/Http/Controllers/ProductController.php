@@ -8,6 +8,7 @@ use App\Models\Product;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use App\Enums\UserRole;
 
 class ProductController extends Controller
 {
@@ -53,11 +54,17 @@ class ProductController extends Controller
 
     /**
      * Display products added by user
+     * Display all products for admin
      */
     public function showMy(Request $request)
     {
+        if (in_array($request->user()->role, [UserRole::ADMIN, UserRole::NEW_ADMIN])) {
+            $products = Product::all();
+        } else {
+            $products = Product::where('created_by', '=', $request->user()->id)->get();
+        }
         return response()->json([
-            'products' => Product::where('created_by', '=', 1)->get(),
+            'products' => $products,
         ]);
     }
 
@@ -71,9 +78,16 @@ class ProductController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * 
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        // $this->authorize('update', $product);
+        if ($request->user()->cannot('update', $product)) {
+            $errors = ['status' => '500', 'message' => 'Brak uprawnień!'];
+            return to_route('eds.index', ['errors' => $errors]);
+        }
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
@@ -90,8 +104,13 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request, Product $product)
     {
+        if ($request->user()->cannot('delete', $product)) {
+            $errors = ['status' => '500', 'message' => 'Brak uprawnień!'];
+            return to_route('eds.index', ['errors' => $errors]);
+        }
+        // $this->authorize('delete', $product);
         $product->delete();
         return to_route('eds.index');
     }
