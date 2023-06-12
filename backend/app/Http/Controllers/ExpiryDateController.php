@@ -11,6 +11,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use ErrorException;
+use App\Enums\UserRole;
 
 class ExpiryDateController extends Controller
 {
@@ -49,10 +50,6 @@ class ExpiryDateController extends Controller
      */
     public function store(StoreExpiryDateRequest $request)
     {
-        $validated = $request->validate([
-            'product.id' => ['required', 'integer'],
-            'date' => ['required', 'date'],
-        ]);
         $requestDate = $request->date;
         $requestProductId = $request->input('product.id');
         $requestAmount = $request->amount;
@@ -72,9 +69,16 @@ class ExpiryDateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ExpiryDate $expiryDate)
+    public function showMy(Request $request)
     {
-        //
+        if (in_array($request->user()->role, [UserRole::ADMIN, UserRole::NEW_ADMIN, UserRole::OLD_USER])) {
+            $expiryDates = ExpiryDate::with('product')->orderBy('updated_at', 'desc')->get();
+        } else {
+            $expiryDates = ExpiryDate::with('product')->where('created_by', '=', $request->user()->id)->orderBy('updated_at', 'desc')->get();
+        }
+        return response()->json([
+            'expiryDates' => $expiryDates,
+        ]);
     }
 
     /**
@@ -90,14 +94,36 @@ class ExpiryDateController extends Controller
      */
     public function update(UpdateExpiryDateRequest $request, ExpiryDate $expiryDate)
     {
-        //
+        if ($request->user()->cannot('update', $expiryDate)) {
+            $errors = ['status' => '500', 'message' => 'Brak uprawnień!'];
+            return to_route('eds.index', ['errors' => $errors]);
+        }
+        $requestProductId = $request->input('product_id');
+        $checkExpiryDateExist = ExpiryDate::where('product_id', '=', $requestProductId)
+            ->where('date', '=', $request->date)
+            ->where('amount', '=', $request->amountValue)
+            ->first();
+        if ($checkExpiryDateExist != null) {
+            $errors = ['status' => '500', 'message' => 'Taki termin już istnieje'];
+            return to_route('eds.index', ['errors' => $errors]);
+        }
+        $expiryDate->date = $request->date;
+        $expiryDate->product_id = $requestProductId;
+        $expiryDate->amount = $request->amountValue;
+        $expiryDate->save();
+        return to_route('eds.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ExpiryDate $expiryDate)
+    public function destroy(Request $request, ExpiryDate $expiryDate)
     {
-        //
+        if ($request->user()->cannot('delete', $expiryDate)) {
+            $errors = ['status' => '500', 'message' => 'Brak uprawnień!'];
+            return to_route('eds.index', ['errors' => $errors]);
+        }
+        $expiryDate->delete();
+        return to_route('eds.index');
     }
 }

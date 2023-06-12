@@ -83,7 +83,6 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        // $this->authorize('update', $product);
         if ($request->user()->cannot('update', $product)) {
             $errors = ['status' => '500', 'message' => 'Brak uprawnień!'];
             return to_route('eds.index', ['errors' => $errors]);

@@ -8,6 +8,7 @@ import {
     AddExpiryDateForm,
     AddProductForm,
     TableProducts,
+    ManageTableExpiryDates,
 } from "./Partials";
 import { PageProps } from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -66,7 +67,7 @@ export default function index({
                                 <TableProducts />
                             </TabPanel>
                             <TabPanel value={tabValue} index={4}>
-                                Zarządzaj
+                                <ManageTableExpiryDates />
                             </TabPanel>
                             <TabPanel value={tabValue} index={5}>
                                 Raport

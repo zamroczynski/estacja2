@@ -40,6 +40,9 @@ Route::middleware('auth')->group(function () {
     //EDS
     Route::get('/eds', [ExpiryDateController::class, 'index'])->name('eds.index');
     Route::post('/eds/store', [ExpiryDateController::class, 'store']);
+    Route::get('/eds/my', [ExpiryDateController::class, 'showMy']);
+    Route::get('/eds/destroy/{expiryDate}', [ExpiryDateController::class, 'destroy']);
+    Route::post('/eds/update/{expiryDate}', [ExpiryDateController::class, 'update']);
 
     //PRODUCTS
     Route::get('/products', [ProductController::class, 'index']);

@@ -5,15 +5,24 @@ namespace App\Policies;
 use App\Models\ExpiryDate;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use App\Enums\UserRole;
 
 class ExpiryDatePolicy
 {
+    /**
+     * Perform pre-authorization checks.
+     */
+    public function before(User $user, string $ability): bool|null
+    {
+        if (in_array($user->role, [UserRole::ADMIN, UserRole::NEW_ADMIN])) return true;
+        return null;
+    }
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +30,7 @@ class ExpiryDatePolicy
      */
     public function view(User $user, ExpiryDate $expiryDate): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +38,7 @@ class ExpiryDatePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +46,8 @@ class ExpiryDatePolicy
      */
     public function update(User $user, ExpiryDate $expiryDate): bool
     {
-        //
+        if ($user->role == UserRole::OLD_USER || $expiryDate->created_by == $user->id) return true;
+        return false;
     }
 
     /**
@@ -45,7 +55,8 @@ class ExpiryDatePolicy
      */
     public function delete(User $user, ExpiryDate $expiryDate): bool
     {
-        //
+        if ($user->role == UserRole::OLD_USER || $expiryDate->created_by == $user->id) return true;
+        return false;
     }
 
     /**
@@ -53,7 +64,8 @@ class ExpiryDatePolicy
      */
     public function restore(User $user, ExpiryDate $expiryDate): bool
     {
-        //
+        if ($user->role == UserRole::OLD_USER || $expiryDate->created_by == $user->id) return true;
+        return false;
     }
 
     /**
@@ -61,6 +73,6 @@ class ExpiryDatePolicy
      */
     public function forceDelete(User $user, ExpiryDate $expiryDate): bool
     {
-        //
+        return false;
     }
 }

@@ -22,7 +22,8 @@ class StoreExpiryDateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'product.id' => ['required', 'integer'],
+            'date' => ['required', 'date'],
         ];
     }
 }

@@ -5,3 +5,5 @@ export { default as AddExpiryDateForm } from "./AddExpiryDateForm";
 export { default as AddProductForm } from "./AddProductForm";
 export { default as TableProducts } from "./TableProducts";
 export { default as DialogEditProductForm } from "./DialogEditProductForm";
+export { default as ManageTableExpiryDates } from "./ManageTableExpiryDates";
+export { default as DialogEditExpiryDateForm } from "./DialogEditExpiryDateForm";
