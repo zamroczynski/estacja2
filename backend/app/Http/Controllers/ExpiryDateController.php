@@ -58,14 +58,14 @@ class ExpiryDateController extends Controller
         $checkExpiryDateExist = ExpiryDate::where('date', '=', $requestDate)->where('product_id', '=', $requestProductId)->first();
         if ($checkExpiryDateExist != null) {
             $errors = ['status' => '500', 'message' => 'Taki termin już istnieje!'];
-            return to_route('eds.index', ['errors' => $errors]);
+            return to_route('eds', ['errors' => $errors]);
         }
         $expiryDate = new ExpiryDate();
         $expiryDate->date = $requestDate;
         $expiryDate->product_id = $requestProductId;
         $expiryDate->amount = $requestAmount;
         $expiryDate->save();
-        return to_route('eds.index');
+        return to_route('eds');
     }
 
     /**
@@ -98,7 +98,7 @@ class ExpiryDateController extends Controller
     {
         if ($request->user()->cannot('update', $expiryDate)) {
             $errors = ['status' => '500', 'message' => 'Brak uprawnień!'];
-            return to_route('eds.index', ['errors' => $errors]);
+            return to_route('eds', ['errors' => $errors]);
         }
         $requestProductId = $request->input('product_id');
         $checkExpiryDateExist = ExpiryDate::where('product_id', '=', $requestProductId)
@@ -107,13 +107,13 @@ class ExpiryDateController extends Controller
             ->first();
         if ($checkExpiryDateExist != null) {
             $errors = ['status' => '500', 'message' => 'Taki termin już istnieje'];
-            return to_route('eds.index', ['errors' => $errors]);
+            return to_route('eds', ['errors' => $errors]);
         }
         $expiryDate->date = $request->date;
         $expiryDate->product_id = $requestProductId;
         $expiryDate->amount = $request->amountValue;
         $expiryDate->save();
-        return to_route('eds.index');
+        return to_route('eds');
     }
 
     /**
@@ -123,10 +123,10 @@ class ExpiryDateController extends Controller
     {
         if ($request->user()->cannot('delete', $expiryDate)) {
             $errors = ['status' => '500', 'message' => 'Brak uprawnień!'];
-            return to_route('eds.index', ['errors' => $errors]);
+            return to_route('eds', ['errors' => $errors]);
         }
         $expiryDate->delete();
-        return to_route('eds.index');
+        return to_route('eds');
     }
 
     /**
@@ -138,14 +138,5 @@ class ExpiryDateController extends Controller
         return response()->json([
             'expiryDates' => $expiryDates,
         ]);
-    }
-
-    /**
-     * Download report in pdf.
-     */
-    public function reportPDF(ReportExpiryDateRequest $request)
-    {
-        $expiryDates = ExpiryDate::with('product')->whereBetween('date', [$request->dateStart, $request->dateEnd])->orderBy('date')->get();
-        // return $expiryDate->downloadIn
     }
 }

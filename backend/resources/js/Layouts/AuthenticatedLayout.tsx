@@ -11,6 +11,12 @@ export default function Authenticated({
     header,
     children,
 }: PropsWithChildren<{ user: User; header?: ReactNode }>) {
+    function isAdmin(role: string): boolean {
+        if (role === "Kierownik" || role === "Zastępca Kierownika") {
+            return true;
+        }
+        return false;
+    }
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -28,7 +34,7 @@ export default function Authenticated({
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("eds.index")}
+                                    href={route("eds")}
                                     active={route().current("eds")}
                                 >
                                     Terminy
@@ -47,7 +53,7 @@ export default function Authenticated({
                                 </NavLink>
                                 <NavLink
                                     href="#"
-                                    active={route().current("taasks")}
+                                    active={route().current("tasks")}
                                 >
                                     Zadania
                                 </NavLink>
@@ -57,12 +63,14 @@ export default function Authenticated({
                                 >
                                     Grafik
                                 </NavLink>
-                                <NavLink
-                                    href="#"
-                                    active={route().current("admin")}
-                                >
-                                    Administracja
-                                </NavLink>
+                                {isAdmin(user.role) && (
+                                    <NavLink
+                                        href={route("admin")}
+                                        active={route().current("admin")}
+                                    >
+                                        Administracja
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
@@ -162,7 +170,7 @@ export default function Authenticated({
                 >
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            href={route("eds.index")}
+                            href={route("eds")}
                             active={route().current("eds")}
                         >
                             Terminy
@@ -192,7 +200,7 @@ export default function Authenticated({
                             Grafik
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
-                            href="#"
+                            href={route("admin")}
                             active={route().current("admin")}
                         >
                             Administracja

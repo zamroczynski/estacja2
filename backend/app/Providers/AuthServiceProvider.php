@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\Product;
 use App\Models\ExpiryDate;
 use App\Policies\ProductPolicy;
 use App\Policies\ExpiryDatePolicy;
+use Illuminate\Support\Facades\Gate;
+use App\Models\User;
+use App\Enums\UserRole;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,19 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->defineUserRoleGate('isAdmin', UserRole::ADMIN);
+        // $this->defineUserRoleGate('isAdmin', UserRole::NEW_ADMIN);
+        $this->defineUserRoleGate('isUser', UserRole::USER);
+        // $this->defineUserRoleGate('isUser', UserRole::OLD_USER);
+    }
+
+    /**
+     * Auxiliary class for defining a role in the system
+     */
+    private function defineUserRoleGate(string $name, string $role): void
+    {
+        Gate::define($name, function (User $user) use ($role) {
+            return $user->role == $role;
+        });
     }
 }

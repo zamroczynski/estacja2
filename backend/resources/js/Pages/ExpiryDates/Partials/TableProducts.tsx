@@ -29,7 +29,7 @@ const TableProducts: React.FC = () => {
     }, []);
 
     const getProducts = async () => {
-        const response = await http.get(`/products/my`);
+        const response = await http.get(`/product/my`);
         setMyProducts(response.data.products);
     };
 
@@ -61,7 +61,7 @@ const TableProducts: React.FC = () => {
         setEditProductName(product.name);
         setOpenDialog(true);
     };
-    console.log(myProducts);
+
     return (
         <div>
             {status === "200" && (

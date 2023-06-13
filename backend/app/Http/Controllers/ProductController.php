@@ -44,12 +44,12 @@ class ProductController extends Controller
         $checkProductNameExist = Product::where('name', '=', $request->productName)->withTrashed()->first();
         if ($checkProductNameExist != null) {
             $errors = ['status' => '500', 'message' => 'Taki produkt już istnieje!'];
-            return to_route('eds.index', ['errors' => $errors]);
+            return to_route('eds', ['errors' => $errors]);
         }
         $product = new Product();
         $product->name = $request->productName;
         $product->save();
-        return to_route('eds.index');
+        return to_route('eds');
     }
 
     /**
@@ -85,7 +85,7 @@ class ProductController extends Controller
     {
         if ($request->user()->cannot('update', $product)) {
             $errors = ['status' => '500', 'message' => 'Brak uprawnień!'];
-            return to_route('eds.index', ['errors' => $errors]);
+            return to_route('eds', ['errors' => $errors]);
         }
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -93,11 +93,11 @@ class ProductController extends Controller
         $checkProductNameExist = Product::where('name', '=', $request->name)->withTrashed()->first();
         if ($checkProductNameExist != null) {
             $errors = ['status' => '500', 'message' => 'Nazwa zajęta'];
-            return to_route('eds.index', ['errors' => $errors]);
+            return to_route('eds', ['errors' => $errors]);
         }
         $product->name = $request->name;
         $product->save();
-        return to_route('eds.index');
+        return to_route('eds');
     }
 
     /**
@@ -107,10 +107,10 @@ class ProductController extends Controller
     {
         if ($request->user()->cannot('delete', $product)) {
             $errors = ['status' => '500', 'message' => 'Brak uprawnień!'];
-            return to_route('eds.index', ['errors' => $errors]);
+            return to_route('eds', ['errors' => $errors]);
         }
         // $this->authorize('delete', $product);
         $product->delete();
-        return to_route('eds.index');
+        return to_route('eds');
     }
 }

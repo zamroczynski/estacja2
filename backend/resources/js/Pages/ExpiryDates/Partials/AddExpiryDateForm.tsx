@@ -36,7 +36,7 @@ const AddExpiryDateForm: any = () => {
     }, []);
     const searchProductsByName = async (name: string) => {
         const searchParams = new URLSearchParams({ name });
-        const response = await http.get(`/products?${searchParams}`);
+        const response = await http.get(`/product?${searchParams}`);
         setProducts(response.data.products);
     };
     const handleSubmit = async (e: React.FormEvent) => {
