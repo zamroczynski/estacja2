@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreExpiryDateRequest;
 use App\Http\Requests\UpdateExpiryDateRequest;
+use App\Http\Requests\ReportExpiryDateRequest;
 use App\Models\ExpiryDate;
 use Carbon\Carbon;
 use Exception;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Inertia\Response;
 use ErrorException;
 use App\Enums\UserRole;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ExpiryDateController extends Controller
 {
@@ -125,5 +127,25 @@ class ExpiryDateController extends Controller
         }
         $expiryDate->delete();
         return to_route('eds.index');
+    }
+
+    /**
+     * Generate data for report.
+     */
+    public function report(ReportExpiryDateRequest $request)
+    {
+        $expiryDates = ExpiryDate::with('product')->whereBetween('date', [$request->dateStart, $request->dateEnd])->orderBy('date')->get();
+        return response()->json([
+            'expiryDates' => $expiryDates,
+        ]);
+    }
+
+    /**
+     * Download report in pdf.
+     */
+    public function reportPDF(ReportExpiryDateRequest $request)
+    {
+        $expiryDates = ExpiryDate::with('product')->whereBetween('date', [$request->dateStart, $request->dateEnd])->orderBy('date')->get();
+        // return $expiryDate->downloadIn
     }
 }

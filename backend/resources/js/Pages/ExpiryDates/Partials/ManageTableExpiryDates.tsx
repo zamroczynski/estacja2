@@ -40,7 +40,7 @@ const ManageTableExpiryDates: React.FC = () => {
         setTimeout(() => {
             searchProductsByName("");
             getExpiryDates();
-        }, 1000);
+        }, 1);
     }, []);
 
     const searchProductsByName = async (name: string) => {
