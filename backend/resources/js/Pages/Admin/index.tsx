@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { ThemeProvider, Stack } from "@mui/material";
 import {
     People,
@@ -15,10 +15,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DarkTheme from "@/Themes/DarkTheme";
 
 export default function index({ auth }: PageProps) {
-    const employeesHandleClick = () => {
-        console.log("click");
-        // TO DO
-    };
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -42,59 +38,26 @@ export default function index({ auth }: PageProps) {
                                 justifyContent="center"
                                 alignItems="center"
                             >
-                                <MenuCard
-                                    Icon={People}
-                                    ButtonText="Pracownicy"
-                                    handleClick={employeesHandleClick}
-                                />
+                                <Link href={route("admin.user")}>
+                                    <MenuCard
+                                        Icon={People}
+                                        ButtonText="Pracownicy"
+                                    />
+                                </Link>
                                 <MenuCard
                                     Icon={Newspaper}
                                     ButtonText="Ogłoszenia"
-                                    handleClick={employeesHandleClick}
                                 />
                                 <MenuCard
                                     Icon={CalendarViewMonth}
                                     ButtonText="Planogramy"
-                                    handleClick={employeesHandleClick}
                                 />
-                                <MenuCard
-                                    Icon={Task}
-                                    ButtonText="Zadania"
-                                    handleClick={employeesHandleClick}
-                                />
+                                <MenuCard Icon={Task} ButtonText="Zadania" />
                                 <MenuCard
                                     Icon={CalendarMonth}
                                     ButtonText="Grafik"
-                                    handleClick={employeesHandleClick}
                                 />
                             </Stack>
-                            {/* <div className="flex flex-wrap justify-center space-x-4 space-y-4">
-                                <MenuCard
-                                    Icon={People}
-                                    ButtonText="Pracownicy"
-                                    handleClick={employeesHandleClick}
-                                />
-                                <MenuCard
-                                    Icon={Newspaper}
-                                    ButtonText="Ogłoszenia"
-                                    handleClick={employeesHandleClick}
-                                />
-                                <MenuCard
-                                    Icon={CalendarViewMonth}
-                                    ButtonText="Planogramy"
-                                    handleClick={employeesHandleClick}
-                                />
-                                <MenuCard
-                                    Icon={Task}
-                                    ButtonText="Zadania"
-                                    handleClick={employeesHandleClick}
-                                />
-                                <MenuCard
-                                    Icon={CalendarMonth}
-                                    ButtonText="Grafik"
-                                    handleClick={employeesHandleClick}
-                                />
-                            </div> */}
                         </ThemeProvider>
                     </div>
                 </div>

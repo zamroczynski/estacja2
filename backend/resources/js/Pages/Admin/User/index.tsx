@@ -1,24 +1,15 @@
 import * as React from "react";
-import { Head } from "@inertiajs/react";
-import { Tab, Tabs, ThemeProvider } from "@mui/material";
+import { Head, Link } from "@inertiajs/react";
+import { Tab, Tabs, ThemeProvider, IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
+import { AddUserForm, ManageTableUser } from "./Partials";
 import { TabPanel } from "@/Components";
-import {
-    TableExpiryDates,
-    AddExpiryDateForm,
-    AddProductForm,
-    TableProducts,
-    ManageTableExpiryDates,
-    ReportExpiryDateForm,
-} from "./Partials";
 import { PageProps } from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DarkTheme from "@/Themes/DarkTheme";
 
-export default function index({
-    auth,
-    expiryDates,
-}: PageProps<{ expiryDates: any }>) {
+export default function index({ auth }: PageProps<{ expiryDates: any }>) {
     const [tabValue, setTabValue] = React.useState(0);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
@@ -27,12 +18,19 @@ export default function index({
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Terminy
-                </h2>
+                <div className="flex justify-between">
+                    <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                        Pracownicy
+                    </h2>
+                    <Link href={route("admin")}>
+                        <IconButton>
+                            <ArrowBackIcon className="text-xl text-gray-800 dark:text-gray-200 leading-tight" />
+                        </IconButton>
+                    </Link>
+                </div>
             }
         >
-            <Head title="Terminy" />
+            <Head title="Pracownicy" />
 
             <div className="py-12">
                 <div className="mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -47,31 +45,15 @@ export default function index({
                                     allowScrollButtonsMobile
                                     sx={{ color: "white" }}
                                 >
-                                    <Tab label="Terminy" />
-                                    <Tab label="Dodaj termin" />
-                                    <Tab label="Dodaj Produkt" />
-                                    <Tab label="Lista Produktów" />
-                                    <Tab label="Zarządzaj" />
-                                    <Tab label="Raport" />
+                                    <Tab label="Dodaj Pracownika" />
+                                    <Tab label="Zarządzaj Pracownikami" />
                                 </Tabs>
                             </div>
                             <TabPanel value={tabValue} index={0}>
-                                <TableExpiryDates />
+                                <AddUserForm />
                             </TabPanel>
                             <TabPanel value={tabValue} index={1}>
-                                <AddExpiryDateForm />
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={2}>
-                                <AddProductForm />
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={3}>
-                                <TableProducts />
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={4}>
-                                <ManageTableExpiryDates />
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={5}>
-                                <ReportExpiryDateForm />
+                                <ManageTableUser />
                             </TabPanel>
                         </ThemeProvider>
                     </div>

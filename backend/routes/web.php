@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ExpiryDateController;
+use App\Http\Controllers\UserController;
 use App\Models\ExpiryDate;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -58,12 +59,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin', function () {
             return Inertia::render('Admin/index');
         })->name('admin');
+
+        //ADMIN USER
+        Route::get('/admin/user', function () {
+            return Inertia::render('Admin/User/index');
+        })->name('admin.user');
+        Route::post('/admin/user/store', [UserController::class, 'store']);
+        Route::get('admin/users', [UserController::class, 'index']);
+        Route::get('admin/roles', [UserController::class, 'roles']);
+        Route::post('admin/user/update/{user}', [UserController::class, 'update']);
+        Route::get('admin/user/destroy/{user}', [UserController::class, 'destroy']);
     });
-    // Route::group([
-    //     'middleware' => 'can:isAdmin'
-    // ], function () {
-    //     Route::get('/', []);
-    // });
 });
 
 require __DIR__ . '/auth.php';

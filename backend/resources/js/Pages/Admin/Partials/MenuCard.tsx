@@ -9,19 +9,11 @@ import Typography from "@mui/material/Typography";
 interface MenuCardProps {
     Icon: any;
     ButtonText: string;
-    handleClick: () => void;
 }
 
-const MenuCard: React.FC<MenuCardProps> = ({
-    Icon,
-    ButtonText,
-    handleClick,
-}) => {
+const MenuCard: React.FC<MenuCardProps> = ({ Icon, ButtonText }) => {
     return (
-        <Card
-            sx={{ minWidth: 270, minHeight: 280, cursor: "pointer" }}
-            onClick={handleClick}
-        >
+        <Card sx={{ minWidth: 270, minHeight: 280, cursor: "pointer" }}>
             <CardContent>
                 <div className="flex justify-center items-center">
                     <Icon sx={{ minWidth: 180, minHeight: 180 }} />

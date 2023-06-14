@@ -66,7 +66,10 @@ export default function Authenticated({
                                 {isAdmin(user.role) && (
                                     <NavLink
                                         href={route("admin")}
-                                        active={route().current("admin")}
+                                        active={
+                                            route().current("admin") ||
+                                            route().current("admin.user")
+                                        }
                                     >
                                         Administracja
                                     </NavLink>
