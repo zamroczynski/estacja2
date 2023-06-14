@@ -204,7 +204,10 @@ export default function Authenticated({
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             href={route("admin")}
-                            active={route().current("admin")}
+                            active={
+                                route().current("admin") ||
+                                route().current("admin.user")
+                            }
                         >
                             Administracja
                         </ResponsiveNavLink>
