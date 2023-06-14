@@ -7,13 +7,9 @@ use App\Http\Requests\UpdateExpiryDateRequest;
 use App\Http\Requests\ReportExpiryDateRequest;
 use App\Models\ExpiryDate;
 use Carbon\Carbon;
-use Exception;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Inertia\Response;
-use ErrorException;
 use App\Enums\UserRole;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class ExpiryDateController extends Controller
 {
@@ -22,21 +18,12 @@ class ExpiryDateController extends Controller
      */
     public function index(Request $request)
     {
-        if (!$request->has('newDate')) {
-            $date = Carbon::now('Europe/Warsaw')->format('Y-m-d');
-            $expiryDates = ExpiryDate::with('product')->where('date', '=', $date)->get();
-            return Inertia::render('ExpiryDates/index', [
-                'expiryDates' => $expiryDates,
-                'errors' => $request->errors,
-            ]);
-        } else {
-            $date = $request->query('newDate');
-            $expiryDates = ExpiryDate::with('product')->where('date', '=', $date)->get();
-            return response()->json([
-                'expiryDates' => $expiryDates,
-                'errors' => $request->errors,
-            ]);
-        }
+        $date = $request->query('newDate');
+        $expiryDates = ExpiryDate::with('product')->where('date', '=', $date)->get();
+        return response()->json([
+            'expiryDates' => $expiryDates,
+            'errors' => $request->errors,
+        ]);
     }
 
     /**

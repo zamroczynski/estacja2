@@ -1,4 +1,4 @@
-import * as React from "react";
+import { SyntheticEvent, useState } from "react";
 import { Head } from "@inertiajs/react";
 import { Tab, Tabs, ThemeProvider } from "@mui/material";
 
@@ -15,12 +15,9 @@ import { PageProps } from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DarkTheme from "@/Themes/DarkTheme";
 
-export default function index({
-    auth,
-    expiryDates,
-}: PageProps<{ expiryDates: any }>) {
-    const [tabValue, setTabValue] = React.useState(0);
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+export default function index({ auth }: PageProps) {
+    const [tabValue, setTabValue] = useState(0);
+    const handleChange = (event: SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
     };
     return (

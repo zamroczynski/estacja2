@@ -1,5 +1,4 @@
-import * as React from "react";
-import { usePage } from "@inertiajs/react";
+import { useState, FC, useEffect } from "react";
 import {
     Table,
     TableBody,
@@ -8,6 +7,8 @@ import {
     TableHead,
     TableRow,
     Paper,
+    Box,
+    CircularProgress,
 } from "@mui/material";
 
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -18,31 +19,28 @@ import "dayjs/locale/en-gb";
 
 import http from "@/http";
 
-interface expiryDateProps {
-    id: number;
-    amount: number;
-    date: string;
-    product_id: number;
-    product: any;
-    created_at: string;
-    created_by: number;
-    updated_at: string;
-    updated_by: number;
-    deleted_at: any;
-}
+import expiryDateProps from "@/types/expiryDateProps";
 
-const TableExpiryDates: React.FC = () => {
-    const { expiryDates }: any = usePage().props;
-    const [data, setData] = React.useState<expiryDateProps[]>(expiryDates);
-    const today = dayjs(expiryDates.date);
-    const [dateValue, setDateValue] = React.useState(today);
+const TableExpiryDates: FC = () => {
+    const [data, setData] = useState<expiryDateProps[]>([]);
+    const today = dayjs();
+    const [dateValue, setDateValue] = useState(today);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            handleDateChange(dateValue);
+        }, 500);
+    }, []);
 
     const handleDateChange = async (e: any) => {
+        setLoading(true);
         setDateValue(e);
         const newDate = e.format("YYYY-MM-DD").toString();
         const searchParams = new URLSearchParams({ newDate });
-        const response = await http.get(`/eds?${searchParams}`);
+        const response = await http.get(`/eds/get?${searchParams}`);
         setData(response.data.expiryDates);
+        setLoading(false);
     };
 
     return (
@@ -87,6 +85,17 @@ const TableExpiryDates: React.FC = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {loading && (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginBottom: "0.5rem",
+                    }}
+                >
+                    <CircularProgress />
+                </Box>
+            )}
         </div>
     );
 };

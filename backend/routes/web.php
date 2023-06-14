@@ -39,7 +39,10 @@ Route::middleware('auth')->group(function () {
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     //EDS
-    Route::get('/eds', [ExpiryDateController::class, 'index'])->name('eds');
+    Route::get('/eds', function () {
+        return Inertia::render('ExpiryDates/index');
+    })->name('eds');
+    Route::get('/eds/get', [ExpiryDateController::class, 'index']);
     Route::post('/eds/store', [ExpiryDateController::class, 'store']);
     Route::get('/eds/my', [ExpiryDateController::class, 'showMy']);
     Route::get('/eds/destroy/{expiryDate}', [ExpiryDateController::class, 'destroy']);
