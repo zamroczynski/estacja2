@@ -33,6 +33,7 @@
         "@mui/x-date-pickers": "^6.5.0",
         "@vitejs/plugin-react": "^4.0.0",
         "dayjs": "^1.11.7",
+        "react-quill": "^2.0.0",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
     }
 }

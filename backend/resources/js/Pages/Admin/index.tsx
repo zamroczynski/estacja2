@@ -44,10 +44,12 @@ export default function index({ auth }: PageProps) {
                                         ButtonText="Pracownicy"
                                     />
                                 </Link>
-                                <MenuCard
-                                    Icon={Newspaper}
-                                    ButtonText="Ogłoszenia"
-                                />
+                                <Link href={route("admin.ads")}>
+                                    <MenuCard
+                                        Icon={Newspaper}
+                                        ButtonText="Ogłoszenia"
+                                    />
+                                </Link>
                                 <MenuCard
                                     Icon={CalendarViewMonth}
                                     ButtonText="Planogramy"

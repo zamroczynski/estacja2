@@ -40,5 +40,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'basia@test.pl',
             'role' => UserRole::OLD_USER
         ]);
+
+        $this->call([
+            ProductSeeder::class,
+            ExpiryDateSeeder::class,
+            ProritySeeder::class,
+        ]);
     }
 }

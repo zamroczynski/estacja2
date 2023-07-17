@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProrityController;
+use App\Http\Controllers\AdsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ExpiryDateController;
@@ -72,6 +74,15 @@ Route::middleware('auth')->group(function () {
         Route::get('admin/roles', [UserController::class, 'roles']);
         Route::post('admin/user/update/{user}', [UserController::class, 'update']);
         Route::get('admin/user/destroy/{user}', [UserController::class, 'destroy']);
+
+        //ADMIN ADS
+        Route::get('/admin/ads', function () {
+            return Inertia::render('Admin/Ads/index');
+        })->name('admin.ads');
+        Route::post('admin/ads/store', [AdsController::class, 'store']);
+
+        //ADMIN PRORITY
+        Route::get('/admin/prorities', [ProrityController::class, 'index']);
     });
 });
 
