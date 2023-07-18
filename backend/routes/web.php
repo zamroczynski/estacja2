@@ -80,6 +80,9 @@ Route::middleware('auth')->group(function () {
             return Inertia::render('Admin/Ads/index');
         })->name('admin.ads');
         Route::post('admin/ads/store', [AdsController::class, 'store']);
+        Route::get('admin/ads/index', [AdsController::class, 'index']);
+        Route::get('admin/ads/destroy/{ads}', [AdsController::class, 'destroy']);
+        Route::post('admin/ads/update/{ads}', [AdsController::class, 'update']);
 
         //ADMIN PRORITY
         Route::get('/admin/prorities', [ProrityController::class, 'index']);

@@ -45,6 +45,6 @@ class Ads extends Model
      */
     public function prority(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'prority');
+        return $this->belongsTo(Prority::class, 'prority_id');
     }
 }

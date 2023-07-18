@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->unsignedBigInteger('prority');
+            $table->unsignedBigInteger('prority_id');
             $table->dateTimeTz('valid_until');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
-            $table->foreign('prority')->references('id')->on('prorities');
+            $table->foreign('prority_id')->references('id')->on('prorities');
             $table->softDeletes();
         });
     }
@@ -35,7 +35,7 @@ return new class extends Migration
         Schema::table('ads', function (Blueprint $table) {
             $table->dropForeign('created_by');
             $table->dropForeign('updated_by');
-            $table->dropForeign('prority');
+            $table->dropForeign('prority_id');
             $table->dropSoftDeletes();
         });
         Schema::dropIfExists('ads');

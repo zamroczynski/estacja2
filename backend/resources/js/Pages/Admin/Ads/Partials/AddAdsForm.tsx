@@ -20,17 +20,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/en-gb";
 
 import http from "@/http";
-
-interface prorityProps {
-    id: number;
-    name: string;
-    value: number;
-    created_at: string;
-    created_by: number;
-    updated_at: string;
-    updated_by: number;
-    deleted_at: any;
-}
+import prorityProps from "@/types/prorityProps";
 
 const AddAdsForm: any = () => {
     const [title, setTitle] = React.useState<string>("");

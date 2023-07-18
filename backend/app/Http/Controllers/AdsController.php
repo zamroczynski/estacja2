@@ -14,7 +14,9 @@ class AdsController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'ads' => Ads::orderBy('created_at', 'desc')->with('prority')->get(),
+        ]);
     }
 
     /**
@@ -33,7 +35,7 @@ class AdsController extends Controller
         $newAds = new Ads();
         $newAds->title = $request->title;
         $newAds->description = $request->description;
-        $newAds->prority = $request->prority;
+        $newAds->prority_id = $request->prority;
         $newAds->valid_until = $request->validUntil;
         $newAds->save();
         return to_route('admin.ads');
@@ -60,7 +62,12 @@ class AdsController extends Controller
      */
     public function update(UpdateAdsRequest $request, Ads $ads)
     {
-        //
+        $ads->title = $request->title;
+        $ads->description = $request->description;
+        $ads->prority_id = $request->prority;
+        $ads->valid_until = $request->validUntil;
+        $ads->save();
+        return to_route('admin.ads');
     }
 
     /**
@@ -68,6 +75,7 @@ class AdsController extends Controller
      */
     public function destroy(Ads $ads)
     {
-        //
+        $ads->delete();
+        return to_route('admin.ads');
     }
 }

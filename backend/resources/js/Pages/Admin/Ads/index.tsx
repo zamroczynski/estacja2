@@ -3,7 +3,7 @@ import { Head, Link } from "@inertiajs/react";
 import { Tab, Tabs, ThemeProvider, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import { AddAdsForm } from "./Partials";
+import { AddAdsForm, ManageTableAds } from "./Partials";
 import { TabPanel } from "@/Components";
 import { PageProps } from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -53,7 +53,7 @@ export default function index({ auth }: PageProps) {
                                 <AddAdsForm />
                             </TabPanel>
                             <TabPanel value={tabValue} index={1}>
-                                Zarządzaj
+                                <ManageTableAds />
                             </TabPanel>
                         </ThemeProvider>
                     </div>

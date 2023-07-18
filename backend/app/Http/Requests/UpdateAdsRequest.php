@@ -11,7 +11,7 @@ class UpdateAdsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateAdsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'min:3'],
+            'description' => ['required'],
+            'prority' => ['required', 'integer'],
+            'validUntil' => ['required', 'date'],
         ];
     }
 }
