@@ -59,9 +59,9 @@ class ProductController extends Controller
     public function showMy(Request $request)
     {
         if (in_array($request->user()->role, [UserRole::ADMIN, UserRole::NEW_ADMIN])) {
-            $products = Product::all();
+            $products = Product::paginate(10);
         } else {
-            $products = Product::where('created_by', '=', $request->user()->id)->get();
+            $products = Product::where('created_by', '=', $request->user()->id)->paginate(10);
         }
         return response()->json([
             'products' => $products,
