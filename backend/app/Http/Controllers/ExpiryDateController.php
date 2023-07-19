@@ -61,9 +61,9 @@ class ExpiryDateController extends Controller
     public function showMy(Request $request)
     {
         if (in_array($request->user()->role, [UserRole::ADMIN, UserRole::NEW_ADMIN, UserRole::OLD_USER])) {
-            $expiryDates = ExpiryDate::with('product')->orderBy('updated_at', 'desc')->get();
+            $expiryDates = ExpiryDate::with('product')->orderBy('updated_at', 'desc')->paginate(10);
         } else {
-            $expiryDates = ExpiryDate::with('product')->where('created_by', '=', $request->user()->id)->orderBy('updated_at', 'desc')->get();
+            $expiryDates = ExpiryDate::with('product')->where('created_by', '=', $request->user()->id)->orderBy('updated_at', 'desc')->paginate(10);
         }
         return response()->json([
             'expiryDates' => $expiryDates,

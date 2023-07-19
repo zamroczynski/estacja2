@@ -7,6 +7,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    TableFooter,
+    TablePagination,
     Paper,
     CircularProgress,
     Box,
@@ -21,6 +23,7 @@ import { DialogEditExpiryDateForm } from ".";
 import http from "@/http";
 import expiryDateProps from "@/types/expiryDateProps";
 import productProps from "@/types/productProps";
+import TablePaginationActions from "@/Components/TablePaginationActions";
 
 const ManageTableExpiryDates: React.FC = () => {
     const [openDialog, setOpenDialog] = React.useState(false);
@@ -35,6 +38,19 @@ const ManageTableExpiryDates: React.FC = () => {
     const [status, setStatus] = React.useState<string>("0");
     const [statusMessage, setStatusMessage] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(true);
+    //Pagination:
+    const [currentPage, setCurrentPage] = React.useState<number>(1);
+    const [firstPageUrl, setFirstPageUrl] = React.useState<string>("");
+    const [from, setFrom] = React.useState<number>(1);
+    const [lastPage, setLastPage] = React.useState<number>(1);
+    const [lastPageUrl, setLastPageUrl] = React.useState<string>("");
+    const [links, setLinks] = React.useState<Object[]>([]);
+    const [nextPageUrl, setNextPageUrl] = React.useState<string>("");
+    const [path, setPath] = React.useState<string>("");
+    const [perPage, setPerPage] = React.useState<number>(15);
+    const [prevPageUrl, setPrevPageUrl] = React.useState<string>("");
+    const [to, setTo] = React.useState<number>(15);
+    const [total, setTotal] = React.useState<number>(200);
 
     React.useEffect(() => {
         setTimeout(() => {
@@ -48,10 +64,23 @@ const ManageTableExpiryDates: React.FC = () => {
         const response = await http.get(`/product?${searchParams}`);
         setProducts(response.data.products);
     };
-    const getExpiryDates = async () => {
-        await http.get(`/eds/my`).then((response) => {
+    const getExpiryDates = async (url: string = "/eds/my") => {
+        await http.get(url).then((response) => {
             setLoading(false);
-            setExpiryDates(response.data.expiryDates);
+            const apiResponse = response.data.expiryDates;
+            setExpiryDates(apiResponse.data);
+            setCurrentPage(apiResponse.current_page);
+            setFirstPageUrl(apiResponse.first_page_url);
+            setFrom(apiResponse.from);
+            setLastPage(apiResponse.last_page);
+            setLastPageUrl(apiResponse.last_page_url);
+            setLinks(apiResponse.links);
+            setNextPageUrl(apiResponse.next_page_url);
+            setPath(apiResponse.path);
+            setPerPage(apiResponse.per_page);
+            setPrevPageUrl(apiResponse.prev_page_url);
+            setTo(apiResponse.to);
+            setTotal(apiResponse.total);
         });
         setLoading(false);
     };
@@ -84,6 +113,22 @@ const ManageTableExpiryDates: React.FC = () => {
         setLoading(true);
         getExpiryDates();
     };
+
+    const handleChangePage = (event: React.MouseEvent | null, page: number) => {
+        if (page === currentPage + 1) {
+            getExpiryDates(nextPageUrl);
+        }
+        if (page === currentPage - 1) {
+            getExpiryDates(prevPageUrl);
+        }
+        if (page === lastPage) {
+            getExpiryDates(lastPageUrl);
+        }
+        if (page === 1) {
+            getExpiryDates(firstPageUrl);
+        }
+    };
+
     return (
         <div>
             {status === "200" && (
@@ -129,6 +174,26 @@ const ManageTableExpiryDates: React.FC = () => {
                             </TableRow>
                         ))}
                     </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                colSpan={4}
+                                count={total}
+                                rowsPerPage={perPage}
+                                page={currentPage}
+                                onPageChange={(e, page) =>
+                                    handleChangePage(e, page)
+                                }
+                                rowsPerPageOptions={[-1]}
+                                ActionsComponent={TablePaginationActions}
+                                labelDisplayedRows={({
+                                    from,
+                                    to,
+                                    count = total,
+                                }) => ` `}
+                            />
+                        </TableRow>
+                    </TableFooter>
                 </Table>
             </TableContainer>
             {loading && (
