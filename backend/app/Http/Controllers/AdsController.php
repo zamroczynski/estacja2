@@ -15,7 +15,7 @@ class AdsController extends Controller
     public function index()
     {
         return response()->json([
-            'ads' => Ads::orderBy('created_at', 'desc')->with('prority')->get(),
+            'ads' => Ads::orderBy('created_at', 'desc')->with('prority')->paginate(10),
         ]);
     }
 

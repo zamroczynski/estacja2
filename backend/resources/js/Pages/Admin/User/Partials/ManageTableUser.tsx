@@ -7,6 +7,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    TableFooter,
+    TablePagination,
     Paper,
     CircularProgress,
     Box,
@@ -17,6 +19,7 @@ import dayjs from "dayjs";
 import { DialogEditUserForm } from ".";
 import { DeleteIconButton, EditIconButton } from "@/Components";
 import http from "@/http";
+import TablePaginationActions from "@/Components/TablePaginationActions";
 
 interface userProps {
     id: number;
@@ -43,6 +46,18 @@ const ManageTableExpiryDates: React.FC = () => {
     const [status, setStatus] = React.useState<string>("0");
     const [statusMessage, setStatusMessage] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(true);
+    const [currentPage, setCurrentPage] = React.useState<number>(1);
+    const [firstPageUrl, setFirstPageUrl] = React.useState<string>("");
+    const [from, setFrom] = React.useState<number>(1);
+    const [lastPage, setLastPage] = React.useState<number>(1);
+    const [lastPageUrl, setLastPageUrl] = React.useState<string>("");
+    const [links, setLinks] = React.useState<Object[]>([]);
+    const [nextPageUrl, setNextPageUrl] = React.useState<string>("");
+    const [path, setPath] = React.useState<string>("");
+    const [perPage, setPerPage] = React.useState<number>(15);
+    const [prevPageUrl, setPrevPageUrl] = React.useState<string>("");
+    const [to, setTo] = React.useState<number>(15);
+    const [total, setTotal] = React.useState<number>(200);
 
     React.useEffect(() => {
         setTimeout(() => {
@@ -52,9 +67,22 @@ const ManageTableExpiryDates: React.FC = () => {
         }, 1000);
     }, []);
 
-    const getUsers = async () => {
-        await http.get(`/admin/users`).then((response) => {
-            setUsers(response.data.users);
+    const getUsers = async (url: string = "/admin/users") => {
+        await http.get(url).then((response) => {
+            const apiResponse = response.data.users;
+            setUsers(apiResponse.data);
+            setCurrentPage(apiResponse.current_page);
+            setFirstPageUrl(apiResponse.first_page_url);
+            setFrom(apiResponse.from);
+            setLastPage(apiResponse.last_page);
+            setLastPageUrl(apiResponse.last_page_url);
+            setLinks(apiResponse.links);
+            setNextPageUrl(apiResponse.next_page_url);
+            setPath(apiResponse.path);
+            setPerPage(apiResponse.per_page);
+            setPrevPageUrl(apiResponse.prev_page_url);
+            setTo(apiResponse.to);
+            setTotal(apiResponse.total);
         });
     };
 
@@ -93,6 +121,22 @@ const ManageTableExpiryDates: React.FC = () => {
         getUsers();
         setLoading(false);
     };
+
+    const handleChangePage = (event: React.MouseEvent | null, page: number) => {
+        if (page === currentPage + 1) {
+            getUsers(nextPageUrl);
+        }
+        if (page === currentPage - 1) {
+            getUsers(prevPageUrl);
+        }
+        if (page === lastPage) {
+            getUsers(lastPageUrl);
+        }
+        if (page === 1) {
+            getUsers(firstPageUrl);
+        }
+    };
+
     return (
         <div>
             {status === "200" && (
@@ -142,6 +186,26 @@ const ManageTableExpiryDates: React.FC = () => {
                             </TableRow>
                         ))}
                     </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                colSpan={5}
+                                count={total}
+                                rowsPerPage={perPage}
+                                page={currentPage}
+                                onPageChange={(e, page) =>
+                                    handleChangePage(e, page)
+                                }
+                                rowsPerPageOptions={[-1]}
+                                ActionsComponent={TablePaginationActions}
+                                labelDisplayedRows={({
+                                    from,
+                                    to,
+                                    count = total,
+                                }) => ` `}
+                            />
+                        </TableRow>
+                    </TableFooter>
                 </Table>
             </TableContainer>
             {loading && (

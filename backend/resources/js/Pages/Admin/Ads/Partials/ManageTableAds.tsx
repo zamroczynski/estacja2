@@ -7,6 +7,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    TableFooter,
+    TablePagination,
     Paper,
     CircularProgress,
     Box,
@@ -21,6 +23,7 @@ import { DialogEditAdsForm } from ".";
 import http from "@/http";
 import adsProps from "@/types/adsProps";
 import prorityProps from "@/types/prorityProps";
+import TablePaginationActions from "@/Components/TablePaginationActions";
 
 const ManageTableAds: React.FC = () => {
     const [ads, setAds] = React.useState<adsProps[]>([]);
@@ -36,16 +39,42 @@ const ManageTableAds: React.FC = () => {
     const [statusMessage, setStatusMessage] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(true);
 
+    const [currentPage, setCurrentPage] = React.useState<number>(1);
+    const [firstPageUrl, setFirstPageUrl] = React.useState<string>("");
+    const [from, setFrom] = React.useState<number>(1);
+    const [lastPage, setLastPage] = React.useState<number>(1);
+    const [lastPageUrl, setLastPageUrl] = React.useState<string>("");
+    const [links, setLinks] = React.useState<Object[]>([]);
+    const [nextPageUrl, setNextPageUrl] = React.useState<string>("");
+    const [path, setPath] = React.useState<string>("");
+    const [perPage, setPerPage] = React.useState<number>(15);
+    const [prevPageUrl, setPrevPageUrl] = React.useState<string>("");
+    const [to, setTo] = React.useState<number>(15);
+    const [total, setTotal] = React.useState<number>(200);
+
     React.useEffect(() => {
         setTimeout(() => {
             getAds();
             getProrites();
         }, 1);
     }, []);
-    const getAds = async () => {
-        await http.get(`/admin/ads/index`).then((response) => {
+    const getAds = async (url: string = "/admin/ads/index") => {
+        await http.get(url).then((response) => {
             setLoading(false);
-            setAds(response.data.ads);
+            const apiResponse = response.data.ads;
+            setAds(apiResponse.data);
+            setCurrentPage(apiResponse.current_page);
+            setFirstPageUrl(apiResponse.first_page_url);
+            setFrom(apiResponse.from);
+            setLastPage(apiResponse.last_page);
+            setLastPageUrl(apiResponse.last_page_url);
+            setLinks(apiResponse.links);
+            setNextPageUrl(apiResponse.next_page_url);
+            setPath(apiResponse.path);
+            setPerPage(apiResponse.per_page);
+            setPrevPageUrl(apiResponse.prev_page_url);
+            setTo(apiResponse.to);
+            setTotal(apiResponse.total);
         });
         setLoading(false);
     };
@@ -84,6 +113,22 @@ const ManageTableAds: React.FC = () => {
         setLoading(true);
         getAds();
     };
+
+    const handleChangePage = (event: React.MouseEvent | null, page: number) => {
+        if (page === currentPage + 1) {
+            getAds(nextPageUrl);
+        }
+        if (page === currentPage - 1) {
+            getAds(prevPageUrl);
+        }
+        if (page === lastPage) {
+            getAds(lastPageUrl);
+        }
+        if (page === 1) {
+            getAds(firstPageUrl);
+        }
+    };
+
     return (
         <div>
             {status === "200" && (
@@ -131,6 +176,26 @@ const ManageTableAds: React.FC = () => {
                             </TableRow>
                         ))}
                     </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                colSpan={4}
+                                count={total}
+                                rowsPerPage={perPage}
+                                page={currentPage}
+                                onPageChange={(e, page) =>
+                                    handleChangePage(e, page)
+                                }
+                                rowsPerPageOptions={[-1]}
+                                ActionsComponent={TablePaginationActions}
+                                labelDisplayedRows={({
+                                    from,
+                                    to,
+                                    count = total,
+                                }) => ` `}
+                            />
+                        </TableRow>
+                    </TableFooter>
                 </Table>
             </TableContainer>
             {loading && (
