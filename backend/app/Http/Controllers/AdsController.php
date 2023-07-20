@@ -6,6 +6,7 @@ use App\Http\Requests\StoreAdsRequest;
 use App\Http\Requests\UpdateAdsRequest;
 use App\Models\Ads;
 use App\Enums\Prority;
+use Carbon\Carbon;
 
 class AdsController extends Controller
 {
@@ -44,9 +45,13 @@ class AdsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Ads $ads)
+    public function showActive()
     {
-        //
+        $today = Carbon::now();
+        $ads = Ads::with('prority')->whereDate('valid_until', '>=', $today)->with('prority')->orderBy('prority_id', 'asc')->get();
+        return response()->json([
+            'ads' => $ads,
+        ]);
     }
 
     /**

@@ -1,3 +1,25 @@
 @tailwind base;
+
+@layer base {
+    h1 {
+      @apply text-2xl;
+    }
+    h2 {
+      @apply text-xl;
+    }
+    h3 {
+      @apply text-lg;
+    }
+    ul {
+        list-style: inside;
+    }
+    ol {
+        list-style: decimal;
+        margin-left: 1.0rem;
+        padding-left: 1.0rem;
+    }
+  }
+
+
 @tailwind components;
 @tailwind utilities;

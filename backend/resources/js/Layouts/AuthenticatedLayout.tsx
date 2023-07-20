@@ -40,7 +40,7 @@ export default function Authenticated({
                                     Terminy
                                 </NavLink>
                                 <NavLink
-                                    href="#"
+                                    href={route("ads")}
                                     active={route().current("ads")}
                                 >
                                     Ogłoszenia
@@ -179,7 +179,7 @@ export default function Authenticated({
                             Terminy
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
-                            href="#"
+                            href={route("ads")}
                             active={route().current("ads")}
                         >
                             Ogłoszenia

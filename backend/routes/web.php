@@ -58,6 +58,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/product/destroy/{product}', [ProductController::class, 'destroy']);
     Route::post('/product/update/{product}', [ProductController::class, 'update']);
 
+    //ADS
+    Route::get('/ads', function () {
+        return Inertia::render('Ads/index');
+    })->name('ads');
+    Route::get('/ads/active', [AdsController::class, 'showActive']);
+
 
     //ADMIN
     Route::middleware('can:isAdmin')->group(function () {
