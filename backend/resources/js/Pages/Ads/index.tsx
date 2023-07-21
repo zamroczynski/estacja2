@@ -8,6 +8,7 @@ import {
     Box,
     CircularProgress,
     Switch,
+    FormControlLabel,
 } from "@mui/material";
 import { PageProps } from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -54,9 +55,17 @@ export default function index({ auth }: PageProps) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Ogłoszenia
-                </h2>
+                <div>
+                    <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                        Ogłoszenia
+                    </h2>
+                    <h3 className="text-gray-800 dark:text-gray-200 leading-tight">
+                        <FormControlLabel
+                            control={<Switch onChange={handleChangeSwitch} />}
+                            label="Archiwalne Ogłoszenia"
+                        />
+                    </h3>
+                </div>
             }
         >
             <Head title="Ogłoszenia" />
@@ -121,8 +130,6 @@ export default function index({ auth }: PageProps) {
                                     </Card>
                                 ))}
                             </div>
-                            <Switch onChange={handleChangeSwitch} />
-                            Archiwalne Ogłoszenia
                         </ThemeProvider>
                     </div>
                 </div>
