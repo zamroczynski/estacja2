@@ -36,6 +36,20 @@ export default function index({ auth }: PageProps) {
         }, 1);
     }, []);
 
+    const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.value);
+        console.log(event.target.checked);
+        if (event.target.checked) {
+            setAds([]);
+            setLoading(true);
+            getAds("/ads/inactive");
+        } else {
+            setAds([]);
+            setLoading(true);
+            getAds();
+        }
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -51,7 +65,6 @@ export default function index({ auth }: PageProps) {
                 <div className="mx-auto sm:px-6 lg:px-8 space-y-6">
                     <div className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg dark:text-white">
                         <ThemeProvider theme={DarkTheme}>
-                            <Switch label="Pokaż archiwalne" />
                             <div className="flex flex-wrap">
                                 {loading && (
                                     <Box
@@ -108,6 +121,8 @@ export default function index({ auth }: PageProps) {
                                     </Card>
                                 ))}
                             </div>
+                            <Switch onChange={handleChangeSwitch} />
+                            Archiwalne Ogłoszenia
                         </ThemeProvider>
                     </div>
                 </div>

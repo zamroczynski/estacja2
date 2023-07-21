@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Ads/index');
     })->name('ads');
     Route::get('/ads/active', [AdsController::class, 'showActive']);
+    Route::get('/ads/inactive', [AdsController::class, 'showInactive']);
 
 
     //ADMIN

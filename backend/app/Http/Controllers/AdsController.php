@@ -55,6 +55,18 @@ class AdsController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function showInactive()
+    {
+        $today = Carbon::now();
+        $ads = Ads::with('prority')->whereDate('valid_until', '<', $today)->with('prority')->orderBy('created_at', 'asc')->get();
+        return response()->json([
+            'ads' => $ads,
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Ads $ads)
