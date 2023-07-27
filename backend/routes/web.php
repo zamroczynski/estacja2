@@ -1,5 +1,7 @@
 <?php
 
+
+use App\Http\Controllers\PlanogramController;
 use App\Http\Controllers\ProrityController;
 use App\Http\Controllers\AdsController;
 use App\Http\Controllers\ProfileController;
@@ -93,6 +95,13 @@ Route::middleware('auth')->group(function () {
 
         //ADMIN PRORITY
         Route::get('/admin/prorities', [ProrityController::class, 'index']);
+
+        //ADMIN PLANOGRAM
+        Route::get('admin/planogram', function () {
+            return Inertia::render('Admin/Planogram/index');
+        })->name('admin.planogram');
+        Route::post('admin/planogram/store', [PlanogramController::class, 'store']);
+        Route::get('admin/planogram/index', [PlanogramController::class, 'index']);
     });
 });
 
