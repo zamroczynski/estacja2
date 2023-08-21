@@ -3,7 +3,7 @@ import { Head, Link } from "@inertiajs/react";
 import { Tab, Tabs, ThemeProvider, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import { AddPlanogramForm } from "./Partials";
+import { AddPlanogramForm, ManageTablePlanogram } from "./Partials";
 import { TabPanel } from "@/Components";
 import { PageProps } from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -53,7 +53,7 @@ export default function index({ auth }: PageProps) {
                                 <AddPlanogramForm />
                             </TabPanel>
                             <TabPanel value={tabValue} index={1}>
-                                Zarządzaj
+                                <ManageTablePlanogram />
                             </TabPanel>
                         </ThemeProvider>
                     </div>

@@ -102,6 +102,9 @@ Route::middleware('auth')->group(function () {
         })->name('admin.planogram');
         Route::post('admin/planogram/store', [PlanogramController::class, 'store']);
         Route::get('admin/planogram/index', [PlanogramController::class, 'index']);
+        Route::get('admin/planogram/destroy/{planogram}', [PlanogramController::class, 'index']);
+        Route::post('admin/planogram/update/{planogram}', [PlanogramController::class, 'update']);
+        Route::get('admin/planogram/media/{planogram}', [PlanogramController::class, 'media']);
     });
 });
 
