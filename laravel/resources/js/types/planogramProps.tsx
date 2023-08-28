@@ -1,4 +1,4 @@
-export default interface adsProps {
+export default interface planogramProps {
     id: number;
     name: string;
     comments: string;

@@ -18,6 +18,9 @@ import "dayjs/locale/en-gb";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
+import mediaProps from "@/types/mediaProps";
+import planogramProps from "@/types/planogramProps";
+
 interface DialogTitleProps {
     id: string;
     children?: React.ReactNode;
@@ -63,6 +66,8 @@ interface DialogEditPlanogramFormProps {
     http: any;
     getPlanogram: () => void;
     setLoading: (value: boolean) => void;
+    media: mediaProps | undefined;
+    setMedia: any;
 }
 
 const DialogEditPlanogramForm: React.FC<DialogEditPlanogramFormProps> = ({
@@ -80,12 +85,16 @@ const DialogEditPlanogramForm: React.FC<DialogEditPlanogramFormProps> = ({
     http,
     getPlanogram,
     setLoading,
+    media,
+    setMedia,
 }) => {
     const [file, setFile] = React.useState<File>();
     const handleClearFile = () => {
         setFile(undefined);
+        setMedia(undefined);
     };
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        handleClearFile();
         if (e.target.files) {
             setFile(e.target.files[0]);
         }
@@ -152,6 +161,17 @@ const DialogEditPlanogramForm: React.FC<DialogEditPlanogramFormProps> = ({
                         Dodaj plik
                         <input type="file" hidden onChange={handleFileUpload} />
                     </Button>
+                    {media && (
+                        <div className="mb-2">
+                            <Button disabled variant="outlined">
+                                {media.name}
+                            </Button>
+                            <Button
+                                startIcon={<Close />}
+                                onClick={handleClearFile}
+                            />
+                        </div>
+                    )}
                     {file && (
                         <div className="mb-2">
                             <Button disabled variant="outlined">

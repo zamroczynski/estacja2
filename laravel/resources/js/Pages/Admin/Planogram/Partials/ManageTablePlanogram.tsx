@@ -23,6 +23,7 @@ import TablePaginationActions from "@/Components/TablePaginationActions";
 import { DialogEditPlanogramForm } from ".";
 import http from "@/http";
 import planogramProps from "@/types/planogramProps";
+import mediaProps from "@/types/mediaProps";
 
 const ManageTablePlanogram: React.FC = () => {
     const { errors } = usePage().props;
@@ -50,6 +51,7 @@ const ManageTablePlanogram: React.FC = () => {
     const [prevPageUrl, setPrevPageUrl] = React.useState<string>("");
     const [to, setTo] = React.useState<number>(15);
     const [total, setTotal] = React.useState<number>(200);
+    const [media, setMedia] = React.useState<mediaProps>();
 
     React.useEffect(() => {
         setTimeout(() => {
@@ -77,13 +79,13 @@ const ManageTablePlanogram: React.FC = () => {
         setLoading(false);
     };
 
-    // const getMedia = async (editPlanogramId: number) => {
-    //     await http
-    //         .get(`/admin/planogram/media/${editPlanogramId}`)
-    //         .then((response) => {
-    //             setMedia(response.data.media[0]);
-    //         });
-    // };
+    const getMedia = async (editPlanogramId: number) => {
+        await http
+            .get(`/admin/planogram/media/${editPlanogramId}`)
+            .then((response) => {
+                setMedia(response.data.media);
+            });
+    };
 
     const handleEdit = (planogram: planogramProps) => {
         setStatus("0");
@@ -93,7 +95,7 @@ const ManageTablePlanogram: React.FC = () => {
         const dateConvert = dayjs(planogram.valid_from);
         setDateValue(dateConvert);
         setComments(planogram.comments);
-        // getMedia(planogram.id);
+        getMedia(planogram.id);
         setOpenDialog(true);
     };
 
@@ -218,6 +220,8 @@ const ManageTablePlanogram: React.FC = () => {
                 http={http}
                 getPlanogram={getPlanogram}
                 setLoading={setLoading}
+                media={media}
+                setMedia={setMedia}
             />
         </div>
     );

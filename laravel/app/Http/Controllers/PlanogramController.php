@@ -54,7 +54,7 @@ class PlanogramController extends Controller
     public function media(Planogram $planogram)
     {
         return response()->json([
-            'media' => $planogram->getMedia('planogram')
+            'media' => $planogram->getMedia('planogram')->first()
         ]);
     }
 
@@ -71,11 +71,15 @@ class PlanogramController extends Controller
      */
     public function update(UpdatePlanogramRequest $request, Planogram $planogram)
     {
+        if ($request->file) {
+            $planogram->clearMediaCollection('planogram');
+            $planogram->addMediaFromRequest('file')->toMediaCollection('planogram');
+        }
         $planogram->name = $request->name;
         $planogram->comments = $request->comments;
         $planogram->valid_from = $request->valid_from;
         $planogram->save();
-        $planogram->addMediaFromRequest('file')->toMediaCollection('planogram');
+
         return to_route('admin.planogram');
     }
 
