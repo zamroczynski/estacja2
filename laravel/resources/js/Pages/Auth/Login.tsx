@@ -91,6 +91,11 @@ export default function Login({
                     </label>
                 </div>
 
+                <div className="block mt-4 text-gray-600 dark:text-gray-400">
+                    <p>Logowanie kierownik: damian@test.pl password</p>
+                    <p>Logowanie pracownik: jan@test.pl password</p>
+                </div>
+
                 <div className="flex items-center justify-end mt-4">
                     {canResetPassword && (
                         <Link
