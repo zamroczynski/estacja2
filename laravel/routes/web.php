@@ -1,12 +1,14 @@
 <?php
 
 
+use App\Http\Controllers\TaskTypeController;
 use App\Http\Controllers\PlanogramController;
 use App\Http\Controllers\ProrityController;
 use App\Http\Controllers\AdsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ExpiryDateController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Models\ExpiryDate;
 use Illuminate\Foundation\Application;
@@ -105,6 +107,13 @@ Route::middleware('auth')->group(function () {
         Route::get('admin/planogram/destroy/{planogram}', [PlanogramController::class, 'index']);
         Route::post('admin/planogram/update/{planogram}', [PlanogramController::class, 'update']);
         Route::get('admin/planogram/media/{planogram}', [PlanogramController::class, 'media']);
+
+        //ADMIN TASK
+        Route::get('admin/task', function () {
+            return Inertia::render('Admin/Task/index');
+        })->name('admin.task');
+        Route::get('admin/task/type', [TaskTypeController::class, 'index']);
+        Route::post('admin/task/store', [TaskController::class, 'store']);
     });
 });
 

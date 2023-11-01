@@ -56,7 +56,12 @@ export default function index({ auth }: PageProps) {
                                         ButtonText="Planogramy"
                                     />
                                 </Link>
-                                <MenuCard Icon={Task} ButtonText="Zadania" />
+                                <Link href={route("admin.task")}>
+                                    <MenuCard
+                                        Icon={Task}
+                                        ButtonText="Zadania"
+                                    />
+                                </Link>
                                 <MenuCard
                                     Icon={CalendarMonth}
                                     ButtonText="Grafik"

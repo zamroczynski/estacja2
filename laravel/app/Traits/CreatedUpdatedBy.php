@@ -2,6 +2,9 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
+
 trait CreatedUpdatedBy
 {
     public static function bootCreatedUpdatedBy()
@@ -22,5 +25,21 @@ trait CreatedUpdatedBy
                 $model->updated_by = auth()->user()->id;
             }
         });
+    }
+
+    /**
+     * Get the user who add the resource.
+     */
+    public function userCreate(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Get the user who update the resource.
+     */
+    public function userUpdate(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }
