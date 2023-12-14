@@ -106,6 +106,17 @@ Route::middleware('auth')->group(function () {
         Route::post('admin/planogram/update/{planogram}', [PlanogramController::class, 'update']);
         Route::get('admin/planogram/media/{planogram}', [PlanogramController::class, 'media']);
     });
+
+    //ADMIN SCHEDULE
+    Route::get('admin/schedule/menu', function () {
+        return Inertia::render('Admin/Schedule/index');
+    })->name('admin.schedule.menu');
+    Route::get('admin/schedule', function () {
+        return Inertia::render('Admin/Schedule/index');
+    })->name('admin.schedule');
+    Route::get('admin/shift', function () {
+        return Inertia::render('Admin/Shift/index');
+    })->name('admin.shift');
 });
 
 require __DIR__ . '/auth.php';

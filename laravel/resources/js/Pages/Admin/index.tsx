@@ -57,10 +57,12 @@ export default function index({ auth }: PageProps) {
                                     />
                                 </Link>
                                 <MenuCard Icon={Task} ButtonText="Zadania" />
-                                <MenuCard
-                                    Icon={CalendarMonth}
-                                    ButtonText="Grafik"
-                                />
+                                <Link href={route("admin.schedule.menu")}>
+                                    <MenuCard
+                                        Icon={CalendarMonth}
+                                        ButtonText="Grafik"
+                                    />
+                                </Link>
                             </Stack>
                         </ThemeProvider>
                     </div>
