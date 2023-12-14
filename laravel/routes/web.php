@@ -7,6 +7,7 @@ use App\Http\Controllers\AdsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ExpiryDateController;
+use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\UserController;
 use App\Models\ExpiryDate;
 use Illuminate\Foundation\Application;
@@ -114,9 +115,16 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/schedule', function () {
         return Inertia::render('Admin/Schedule/index');
     })->name('admin.schedule');
+    
+
+    //ADMIN SHIFT
     Route::get('admin/shift', function () {
         return Inertia::render('Admin/Shift/index');
     })->name('admin.shift');
+    Route::get('admin/shift/index', [ShiftController::class, 'index']);
+    Route::post('admin/shift/store', [ShiftController::class, 'store']);
+    Route::post('admin/shift/update/{shift}', [ShiftController::class, 'update']);
+    Route::get('admin/shift/destroy/{shift}', [ShiftController::class, 'destroy']);
 });
 
 require __DIR__ . '/auth.php';

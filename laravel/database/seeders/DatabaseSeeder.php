@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             ExpiryDateSeeder::class,
             ProritySeeder::class,
+            ShiftSeeder::class,
         ]);
     }
 }
