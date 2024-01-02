@@ -25,8 +25,10 @@ class ShiftController extends Controller
     {
         $newShift = new Shift();
         $newShift->name = $request->name;
-        $newShift->time_start = $request->time_start;
-        $newShift->time_stop = $request->time_stop;
+        $newShift->time_start = $request->timeStart;
+        $newShift->time_stop = $request->timeStop;
+        $newShift->assignTime();
+        // dd($newShift);
         $newShift->save();
         return to_route('admin.shift');
     }

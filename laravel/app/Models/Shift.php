@@ -22,4 +22,11 @@ class Shift extends Model
         'time_start',
         'time_stop',
     ];
+
+    public function assignTime() {
+        $timeStart = date('H:i', strtotime($this->time_start . ' +1 hour'));
+        $timeStop = date('H:i', strtotime($this->time_stop . ' +1 hour'));
+        $this->time_start = $timeStart;
+        $this->time_stop = $timeStop;
+    }
 }
