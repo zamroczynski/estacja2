@@ -21,6 +21,8 @@ class Shift extends Model
         'name',
         'time_start',
         'time_stop',
+        'hours',
+        'minutes',
     ];
 
     public function assignTime() {
@@ -28,5 +30,12 @@ class Shift extends Model
         $timeStop = date('H:i', strtotime($this->time_stop . ' +1 hour'));
         $this->time_start = $timeStart;
         $this->time_stop = $timeStop;
+
+        $start_timestamp = strtotime($this->time_start);
+        $stop_timestamp = strtotime($this->time_stop);
+        $time_diff = $stop_timestamp - $start_timestamp;
+
+        $this->hours = floor($time_diff / 3600);
+        $this->minutes = floor(($time_diff % 3600) / 60);
     }
 }

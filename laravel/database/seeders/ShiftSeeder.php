@@ -17,6 +17,8 @@ class ShiftSeeder extends Seeder
             'name' => 'Dniówka 12h',
             'time_start' => '07:00:00',
             'time_stop' => '19:00:00',
+            'hours' => 12,
+            'minutes' => 0,
             'created_by' => 1,
             'updated_by' => 1,
         ]);
@@ -24,6 +26,8 @@ class ShiftSeeder extends Seeder
             'name' => 'Nocka 12h',
             'time_start' => '19:00:00',
             'time_stop' => '07:00:00',
+            'hours' => 12,
+            'minutes' => 0,
             'created_by' => 1,
             'updated_by' => 1,
         ]);
@@ -31,6 +35,8 @@ class ShiftSeeder extends Seeder
             'name' => 'Dniówka 8h',
             'time_start' => '12:00:00',
             'time_stop' => '20:00:00',
+            'hours' => 8,
+            'minutes' => 0,
             'created_by' => 1,
             'updated_by' => 1,
         ]);
@@ -38,6 +44,8 @@ class ShiftSeeder extends Seeder
             'name' => 'Podjazd 8h',
             'time_start' => '11:00:00',
             'time_stop' => '19:00:00',
+            'hours' => 8,
+            'minutes' => 0,
             'created_by' => 1,
             'updated_by' => 1,
         ]);

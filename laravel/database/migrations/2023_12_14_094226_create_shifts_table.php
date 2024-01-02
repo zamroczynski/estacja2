@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->time('time_start');
             $table->time('time_stop');
+            $table->unsignedSmallInteger('hours');
+            $table->unsignedSmallInteger('minutes');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();
