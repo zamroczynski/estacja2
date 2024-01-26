@@ -28,7 +28,6 @@ class ShiftController extends Controller
         $newShift->time_start = $request->timeStart;
         $newShift->time_stop = $request->timeStop;
         $newShift->assignTime();
-        // dd($newShift);
         $newShift->save();
         return to_route('admin.shift');
     }
@@ -38,13 +37,12 @@ class ShiftController extends Controller
      */
     public function update(UpdateShiftRequest $request, Shift $shift)
     {
-        $this->authorize('update', $shift);
 
-        $validated = $request->validated();
-
-        dd($validated);
-
-        // TODO ADD store logic
+        $shift->name = $request->name;
+        $shift->time_start = $request->timeStart;
+        $shift->time_stop = $request->timeStop;
+        $shift->assignTime();
+        $shift->save();
 
         return to_route('admin.shift');
     }

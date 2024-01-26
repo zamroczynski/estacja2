@@ -22,7 +22,7 @@ export default function index({ auth }: PageProps<{ expiryDates: any }>) {
                     <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                         Zmiany
                     </h2>
-                    <Link href={route("admin")}>
+                    <Link href={route("admin.schedule.menu")}>
                         <IconButton>
                             <ArrowBackIcon className="text-xl text-gray-800 dark:text-gray-200 leading-tight" />
                         </IconButton>

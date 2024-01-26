@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Shift;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use App\Enums\UserRole;
 
 class ShiftPolicy
 {
@@ -37,7 +38,8 @@ class ShiftPolicy
      */
     public function update(User $user, Shift $shift): bool
     {
-        //
+        if (in_array($user->role, [UserRole::ADMIN, UserRole::NEW_ADMIN])) return true;
+        return false;
     }
 
     /**
